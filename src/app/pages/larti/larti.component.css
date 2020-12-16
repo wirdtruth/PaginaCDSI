@@ -1,0 +1,103 @@
+.example-container {
+  position: relative;
+  min-height: 200px;
+  /*border: 1px solid rgb(250, 39, 39);
+  padding:1em;
+  color: black;*/
+  width: 95%;
+  margin: auto;
+}
+
+.example-table-container {
+  position: relative;
+  max-height: 500px;
+  overflow: auto;
+  border: 1px solid blue /* rgb(25, 48, 255)*/;
+  /*border: 1px solid rgb(251, 255, 21);*/
+  border-radius: 10px;
+  color: black;
+  box-sizing: border-box;
+  width: 100%;
+}
+table {
+  width: 100%;
+  color: black;
+  font-size: 0.9em;
+}
+.mat-paginator{
+  width: 100%;
+  /*border: 1px solid rgb(23, 220, 255);*/
+  color: black;
+}
+.mat-sort-header-sorted {
+  color: black;
+}
+.mat-form-field{
+  font-size: 15px;
+  width: 100%; 
+}
+.mat-column-idArti,
+.mat-column-compromiso,
+.mat-column-disponible{
+  max-width: 85px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mat-column-idArti{
+  margin-left: -20px;
+  box-sizing: border-box;
+}
+
+.mat-column-medida, 
+.mat-column-marca,
+.mat-column-precio{
+  max-width: 65px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mat-column-fecha{
+  max-width: 90px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mat-column-categoria, 
+.mat-column-familia,
+.mat-column-clase,
+.mat-column-catalogo{
+  max-width: 90px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*.mat-column-disponible{
+  max-width: 80px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+/*.mat-column-compromiso{
+  max-width: 90px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+}*/
+.mat-column-descripcion{
+  max-width: 300px;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mat-header-cell {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}

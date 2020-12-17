@@ -4,13 +4,26 @@
     <div>
       <h2>Filtros</h2>
       <mat-form-field>
+        <mat-select placeholder="Almacen" [(ngModel)]="almacen">
+          <mat-option *ngFor="let a of ( almacenes$ | async )" [value]="a.idArinb.codigo">
+            {{a.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Precios" [(ngModel)]="tipo">
+          <mat-option *ngFor="let t of ( tipos$ | async )" [value]="t.idArfa.tipo">
+            {{t.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
         <mat-select placeholder="Linea" [(ngModel)]="linea" (ngModelChange)="listarSubLineas()">
           <mat-option *ngFor="let l of ( lineas$ | async )" [value]="l.idLinea.codigo">
             {{l.descripcion}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-divider></mat-divider>
       <mat-form-field>
         <mat-select placeholder="Sub Linea" [(ngModel)]="sublinea" (ngModelChange)="listarFamilias()">
           <mat-option *ngFor="let s of ( sublineas$ | async )" [value]="s.idArinc.codigo">
@@ -26,9 +39,10 @@
         </mat-select>
       </mat-form-field>
       <mat-divider></mat-divider>
-      
+      <div class="example-button-row">
         <button mat-raised-button (click)="filtrarData()">Buscar</button>
-      
+        <button mat-raised-button (click)="borrarFiltros()">Borrar</button>
+      </div>
     </div>
   </div>
 
@@ -50,11 +64,11 @@
 
           <!-- Name Column -->
           <ng-container matColumnDef="descripcion">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.descripcion}}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="medida">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Medida</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Medida</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.medida}} </mat-cell>
           </ng-container>
           

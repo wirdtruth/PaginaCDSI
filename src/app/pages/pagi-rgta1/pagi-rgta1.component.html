@@ -1,6 +1,9 @@
 <div class="page-container"> 
 <nav *ngIf="paginas?.length">
     <ul class="nav nav-pills">
+        <li class="page-item" [ngClass]="paginador.number > 0?'':'disabled'"> 
+            <a class="page-link" [routerLink]="['/dashboard/articulo/page',0]">Inicio</a>
+        </li>
         <li class="page-item" [ngClass]="paginador.number > 0?'':'disabled'">
             <a class="page-link" [routerLink]="['/dashboard/articulo/page',paginador.number-1]">Atras</a>
         </li>

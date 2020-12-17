@@ -1,3 +1,4 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './../material/material.module';
 import { PagiRgtaComponent1 } from './pagi-rgta1/pagi-rgta1.component';
 import { LartiComponent } from './larti/larti.component';
@@ -7,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesComponent } from './pages.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -83,6 +84,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
     FormsModule,
     ComponentsModule,
     ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     MaterialModule
   ]
 })

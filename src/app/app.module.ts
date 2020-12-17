@@ -33,7 +33,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    MatDialogModule,
     MaterialModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],

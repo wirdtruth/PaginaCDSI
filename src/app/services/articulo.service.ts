@@ -43,8 +43,26 @@ export class ArticuloService {
   }
 
   // METODO QUE NOS PERMITE TRAER TODOS LOS ARTICULOS CON SUS PRECIOS
-  public getPagArti(usuario: Usuario, page: number) {
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${page}`).pipe(
+  public getPageAll(usuario: Usuario, catalogo:string, linea:string,subLinea:string,
+    familia:string,almacen:string,tipo:string,page: number) {
+    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${familia}/${almacen}/${tipo}/${page}`).pipe(
+      map(rest => {
+         //console.log(rest);
+         return rest;
+      })
+    );
+  }
+  public getPageAllLinea(usuario: Usuario, catalogo:string, linea:string,almacen:string,tipo:string,page: number) {
+    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${almacen}/${tipo}/${page}`).pipe(
+      map(rest => {
+         //console.log(rest);
+         return rest;
+      })
+    );
+  }
+  public getPageAllSubLinea(usuario: Usuario, catalogo:string, linea:string,subLinea:string,
+    almacen:string,tipo:string,page: number) {
+    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${almacen}/${tipo}/${page}`).pipe(
       map(rest => {
          //console.log(rest);
          return rest;

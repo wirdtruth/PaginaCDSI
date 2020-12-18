@@ -47,12 +47,12 @@
   </div>
 
   <div class="col-md-10">
-    <div class="example-container">
-      <div class="example-header">
-        <mat-form-field>
-          <input matInput (keyup)="filtrar($event.target.value)" placeholder="Buscar Articulo">
-        </mat-form-field>
-      </div>
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="filtrar($event.target.value)" placeholder="Buscar Articulo">
+      </mat-form-field>
+    </div>
+    <div class="example-container mat-elevation-z8">
       <div class="example-table-container">
         <table mat-table [dataSource]="dataSource" class="example-table" matSort>
 
@@ -110,13 +110,13 @@
 
           <!-- Weight Column -->
           <ng-container matColumnDef="compromiso">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Compromiso</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stock General</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.compromiso}} </mat-cell>
           </ng-container>
 
           <!-- Weight Column -->
           <ng-container matColumnDef="disponible">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Disponible</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stok Disponible</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.stock - row.compromiso}} </mat-cell>
           </ng-container>
           <!--
@@ -131,7 +131,7 @@
         </table>
 
       </div>
-      <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8]"></mat-paginator>
+      <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8]" showFirstLastButtons></mat-paginator>
       <!--<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[1, 5, 8]" 
 (page)="pageEvent = $event"></mat-paginator>
       <app-pagi-rgta1 *ngIf="paginador" [paginador]="paginador"></app-pagi-rgta1>-->

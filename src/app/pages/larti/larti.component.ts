@@ -159,8 +159,6 @@ export class LartiComponent implements OnInit {
       });
       Swal.showLoading();
       this.serviArti.getPageCata(usu, this.catalogo, this.almacen, this.tipo).subscribe(data => {
-          console.log("filtrarCatalogo");
-          console.log(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
@@ -186,8 +184,6 @@ export class LartiComponent implements OnInit {
       });
       Swal.showLoading();
       this.serviArti.getPageAllLinea(usu, this.catalogo,this.linea, this.almacen, this.tipo).subscribe(data => {
-        console.log("filtrarLinea");
-        console.log(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           //this.paginador = data;
@@ -213,8 +209,6 @@ export class LartiComponent implements OnInit {
       });
       Swal.showLoading();
       this.serviArti.getPageAllSubLinea(usu, this.catalogo, this.linea,this.sublinea,this.almacen, this.tipo).subscribe(data => {
-        console.log("filtrarsub");
-        console.log(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           //this.paginador = data;
@@ -243,8 +237,6 @@ export class LartiComponent implements OnInit {
 
       this.serviArti.getPageAll(usu, this.catalogo, this.linea, this.sublinea, this.familia,
         this.almacen, this.tipo).subscribe(data => {
-          console.log("filtrarTodo");
-          console.log(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

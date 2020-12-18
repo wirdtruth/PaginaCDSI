@@ -32,13 +32,19 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Familia" [(ngModel)]="familia">
+        <mat-select placeholder="Familia" [(ngModel)]="familia" (ngModelChange)="filtrarCompleto()">
           <mat-option *ngFor="let f of ( familias$ | async )" [value]="f.idArfa.codigo">
             {{f.descripcion}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-divider></mat-divider>
+      <mat-form-field>
+        <mat-select placeholder="Marca" [(ngModel)]="marca" (ngModelChange)="filtrarMarca()">
+          <mat-option *ngFor="let m of ( marcas$ | async )" [value]="m.idMar.codigo">
+            {{m.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div class="example-button-row">
         <button mat-raised-button (click)="filtrarData()">Buscar</button>
         <button mat-raised-button (click)="borrarFiltros()">Borrar</button>
@@ -49,7 +55,7 @@
   <div class="col-md-10">
     <div class="example-header">
       <mat-form-field>
-        <input matInput (keyup)="filtrar($event.target.value)" placeholder="Buscar Articulo">
+        <input matInput [(ngModel)]="nombre" (keyup)="filtrar($event.target.value)" placeholder="Buscar Articulo">
       </mat-form-field>
     </div>
     <div class="example-container mat-elevation-z8">
@@ -90,8 +96,8 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header>Familia</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.familia}} </mat-cell>
           </ng-container>
--->
-          <!-- Weight Column 
+
+         
           <ng-container matColumnDef="marca">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Marca</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.marca}} </mat-cell>
@@ -111,7 +117,7 @@
           <!-- Weight Column -->
           <ng-container matColumnDef="compromiso">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Stock General</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.compromiso}} </mat-cell>
+            <mat-cell *matCellDef="let row"> {{row.stock}} </mat-cell>
           </ng-container>
 
           <!-- Weight Column -->

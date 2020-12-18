@@ -1,3 +1,5 @@
+import { Arinmr } from './../../models/Arinmr';
+import { ArinmrService } from './../../services/Arinmr.service';
 import { ArfatpService } from './../../services/arfatp.service';
 import { Arinbo1Service } from './../../services/arinbo1.service';
 import { Familia } from './../../models/Familia';
@@ -36,12 +38,13 @@ import { Articulo } from 'src/app/models/Articulo';
 })
 export class LartiComponent implements OnInit {
 
-  displayedColumns = ['idArti', 'descripcion', 'medida', 'precio', 'compromiso', 'disponible'];
+  displayedColumns = ['idArti', 'descripcion','medida', 'precio', 'compromiso', 'disponible'];
   dataSource: MatTableDataSource<Articulo>;
   paginador: any;
   catalogo: string = '1';
   almacenes$: Observable<Arinbo1[]>;
   tipos$: Observable<Arfatp[]>;
+  marcas$:Observable<Arinmr[]>;
   catalogos$: Observable<Catalogo[]>;
   lineas$: Observable<Linea[]>;
   sublineas$: Observable<SubLinea[]>;
@@ -57,26 +60,30 @@ export class LartiComponent implements OnInit {
   constructor(public serviArti: ArticuloService, public serviCat: CatalogoService,
     public actiRouter: ActivatedRoute, public serviLin: LineaService,
     public serviSub: SublineaService, public serviFam: FamiliaService,
-    public serviAlma: Arinbo1Service, public serviPre: ArfatpService) {
+    public serviAlma: Arinbo1Service, public serviPre: ArfatpService,
+    public servMar:ArinmrService) {
   }
   pageEvent: PageEvent;
 
-
+  marca:string;
   linea: string;
   sublinea: string;
   familia: string;
   almacen: string;
   tipo: string;
+  nombre:any;
 
   ngOnInit() {
     this.almacen='1A001';
     this.tipo= 'F8';
+
     this.listarCatalogos();
-    this.filtrarCatalogo();
     this.listarAlmacenes();
     this.listarPrecios();
     this.listarLineas();
-    
+    this.listarMarcas();
+    this.filtrarCatalogo();
+  
   }
   listarAlmacenes() {
     let usu = new Usuario();
@@ -87,6 +94,11 @@ export class LartiComponent implements OnInit {
     let usu = new Usuario();
     usu.cia = '01';
     this.tipos$ = this.serviPre.getPrecios(usu);
+  }
+  listarMarcas() {
+    let usu = new Usuario();
+    usu.cia = '01';
+    this.marcas$ = this.servMar.getMarcas(usu);
   }
   listarCatalogos() {
     let usu = new Usuario();
@@ -109,46 +121,45 @@ export class LartiComponent implements OnInit {
     usu.cia = '01';
     this.familias$ = this.serviFam.getFamilias(usu, this.catalogo,this.linea,this.sublinea);
   }
+  filtrarMarca() {
+    this.dataSource.filterPredicate = function(data, filter: string):boolean{
+      return (data.marca.toLowerCase().includes(filter));
+    };
+    this.dataSource.filter =this.marca.trim().toLowerCase();
+
+  }
   filtrar(valor: any) {
+    this.dataSource.filterPredicate = function(data, filter: string):boolean{
+      return (data.descripcion.toLowerCase().includes(filter)||data.no_arti.toLowerCase().includes(filter));
+    };
     this.dataSource.filter = valor.trim().toLowerCase();
   }
   filtrarData() {
-    
     if(typeof this.linea ==='undefined' && typeof this.sublinea ==='undefined' && typeof this.familia ==='undefined' ||
     this.linea ==='' &&  this.sublinea ==='' &&  this.familia ===''){
-      //console.log("entra solo catalogo");
       this.filtrarCatalogo();
     } 
-
     if(typeof this.linea !== 'undefined' && typeof this.sublinea ==='undefined' && typeof this.familia ==='undefined' || 
     typeof this.linea !== 'undefined' &&  this.sublinea ==='' &&  this.familia ===''){
-      //console.log("entra solo linea");
       this.filtrarLinea();
     } 
       if(typeof this.linea !== 'undefined' && typeof this.sublinea !== 'undefined' && typeof this.familia ==='undefined' ||
       typeof this.linea === 'undefined' &&  typeof this.sublinea ==='undefined' &&  this.familia ===''){
-        //console.log("entra solo sublinea");
         this.filtrarSubLinea();
       } 
         if(typeof this.linea !== 'undefined' && typeof this.sublinea !== 'undefined' && typeof this.familia !== 'undefined'){
-          //console.log("entra solo familia");
           this.filtrarCompleto()
         } 
-        //console.log(this.linea,this.sublinea, this.familia);
       }
-    
   borrarFiltros(){
     this.linea= '';
     this.sublinea='';
     this.familia='';
+    this.marca='';
     this.filtrarCatalogo();
   }
   filtrarCatalogo(){
-   /* this.actiRouter.paramMap.subscribe(params => {
-      let page: number = +params.get('page');
-      if (!page) { // SI NO EXISTE
-        page = 0;
-      }*/
+
       let usu = new Usuario();
       usu.cia = '01';
       // ALERTA
@@ -162,18 +173,10 @@ export class LartiComponent implements OnInit {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-          //this.paginador = data;
           Swal.close();
         });
       }
-    //);
-  //}
   filtrarLinea(){
-   /* this.actiRouter.paramMap.subscribe(params => {
-      let page: number = +params.get('page');
-      if (!page) { // SI NO EXISTE
-        page = 0;
-      }*/
       let usu = new Usuario();
       usu.cia = '01';
       // ALERTA
@@ -186,19 +189,11 @@ export class LartiComponent implements OnInit {
       this.serviArti.getPageAllLinea(usu, this.catalogo,this.linea, this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
-          //this.paginador = data;
           this.dataSource.paginator = this.paginator;
           Swal.close();
         });
       }
-   // );
- // }
   filtrarSubLinea(){
-   /* this.actiRouter.paramMap.subscribe(params => {
-      let page: number = +params.get('page');
-      if (!page) { // SI NO EXISTE
-        page = 0;
-      }*/
       let usu = new Usuario();
       usu.cia = '01';
       // ALERTA
@@ -211,19 +206,11 @@ export class LartiComponent implements OnInit {
       this.serviArti.getPageAllSubLinea(usu, this.catalogo, this.linea,this.sublinea,this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
-          //this.paginador = data;
           this.dataSource.paginator = this.paginator;
           Swal.close();
         });
       }
-   /* );
-  }*/
   filtrarCompleto(){
-   /* this.actiRouter.paramMap.subscribe(params => {
-      let page: number = +params.get('page');
-      if (!page) { // SI NO EXISTE
-        page = 0;
-      }*/
       let usu = new Usuario();
       usu.cia = '01';
       usu.username = 'RSL';
@@ -240,7 +227,6 @@ export class LartiComponent implements OnInit {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-          //this.paginador = data;
           Swal.close();
         });
     }

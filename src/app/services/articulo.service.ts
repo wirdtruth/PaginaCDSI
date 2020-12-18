@@ -5,6 +5,7 @@ import { OtherService } from './other.service';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2'
+import { Articulo } from '../models/Articulo';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +36,7 @@ export class ArticuloService {
   }
   // METODO QUE NOS PERMITE TRAER TODOS LOS ARTICULOS CON SUS PRECIOS
   public getShowArti(cia: string, cod: string){
-    return this.http.get<any>(this.other.getUrl() + `/arti/show/${cia}/${cod}`).pipe(
+    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/show/${cia}/${cod}`).pipe(
       map(rest => {
          return rest;
       })
@@ -44,24 +45,24 @@ export class ArticuloService {
 
   // METODO QUE NOS PERMITE TRAER TODOS LOS ARTICULOS CON SUS PRECIOS
   public getPageAll(usuario: Usuario, catalogo:string, linea:string,subLinea:string,
-    familia:string,almacen:string,tipo:string,page: number) {
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${familia}/${almacen}/${tipo}/${page}`).pipe(
+    familia:string,almacen:string,tipo:string/*,page: number*/) {
+    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/list/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${familia}/${almacen}/${tipo}`).pipe(
       map(rest => {
          //console.log(rest);
          return rest;
       })
     );
   }
-  public getPageCata(usuario: Usuario, catalogo:string,almacen:string,tipo:string,page: number) {
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${almacen}/${tipo}/${page}`).pipe(
+  public getPageCata(usuario: Usuario, catalogo:string,almacen:string,tipo:string/*,page: number*/) {
+    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/list/${usuario.cia}/${catalogo}/${almacen}/${tipo}`).pipe(
       map(rest => {
          //console.log(rest);
          return rest;
       })
     );
   }
-  public getPageAllLinea(usuario: Usuario, catalogo:string, linea:string,almacen:string,tipo:string,page: number) {
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${almacen}/${tipo}/${page}`).pipe(
+  public getPageAllLinea(usuario: Usuario, catalogo:string, linea:string,almacen:string,tipo:string/*,page: number*/) {
+    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/list/${usuario.cia}/${catalogo}/${linea}/${almacen}/${tipo}`).pipe(
       map(rest => {
          //console.log(rest);
          return rest;
@@ -69,8 +70,8 @@ export class ArticuloService {
     );
   }
   public getPageAllSubLinea(usuario: Usuario, catalogo:string, linea:string,subLinea:string,
-    almacen:string,tipo:string,page: number) {
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/page/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${almacen}/${tipo}/${page}`).pipe(
+    almacen:string,tipo:string/*,page: number*/) {
+    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/list/${usuario.cia}/${catalogo}/${linea}/${subLinea}/${almacen}/${tipo}`).pipe(
       map(rest => {
          //console.log(rest);
          return rest;

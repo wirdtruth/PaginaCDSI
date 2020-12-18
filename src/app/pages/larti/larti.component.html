@@ -71,7 +71,7 @@
             <mat-header-cell *matHeaderCellDef>Medida</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.medida}} </mat-cell>
           </ng-container>
-          
+
           <!-- Weight Column 
           <ng-container matColumnDef="catalogo">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Catálogo</mat-header-cell>
@@ -131,9 +131,10 @@
         </table>
 
       </div>
+      <mat-paginator [pageSize]="8" [pageSizeOptions]="[1, 5, 8]"></mat-paginator>
       <!--<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[1, 5, 8]" 
-(page)="pageEvent = $event"></mat-paginator>-->
-      <app-pagi-rgta1 *ngIf="paginador" [paginador]="paginador"></app-pagi-rgta1>
+(page)="pageEvent = $event"></mat-paginator>
+      <app-pagi-rgta1 *ngIf="paginador" [paginador]="paginador"></app-pagi-rgta1>-->
     </div>
   </div>
 </div>

@@ -55,8 +55,8 @@ const routes: Routes = [
           {path:  'alianzas',component: AlianzasComponent},
           {path: 'tra_rea', component: TrabajosRealizadosComponent },
           {path: 'reg_asis', component: LoginComponent },
-          //{ path: 'articulo',  component: LartiComponent },
-          { path: 'articulo/page/:page',  component: LartiComponent },// REGISTRO DE ASISTENCIA
+          { path: 'articulo',  component: LartiComponent },
+          //{ path: 'articulo/page/:page',  component: LartiComponent },
           {path: 'home', component: HomeComponent } // REGISTRO DE ASISTENCIA
 
         ]

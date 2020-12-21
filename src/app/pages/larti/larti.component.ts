@@ -1,3 +1,6 @@
+import { IdArccvc } from './../../models/IdArccvc';
+import { Arccvc } from './../../models/Arccvc';
+import { Company } from 'src/app/models/company';
 import { Arinmr } from './../../models/Arinmr';
 import { ArinmrService } from './../../services/Arinmr.service';
 import { ArfatpService } from './../../services/arfatp.service';
@@ -13,7 +16,7 @@ import { CatalogoService } from './../../services/catalogo.service';
 import Swal from 'sweetalert2';
 import { Usuario } from './../../models/usuario';
 import { ArticuloService } from './../../services/articulo.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -64,7 +67,7 @@ export class LartiComponent implements OnInit {
     public servMar:ArinmrService) {
   }
   pageEvent: PageEvent;
-
+  usu = new Usuario();
   marca:string;
   linea: string;
   sublinea: string;
@@ -74,9 +77,9 @@ export class LartiComponent implements OnInit {
   nombre:any;
 
   ngOnInit() {
+    this.usu.cia = sessionStorage.getItem('cia');
     this.almacen='1A001';
     this.tipo= 'F8';
-
     this.listarCatalogos();
     this.listarAlmacenes();
     this.listarPrecios();
@@ -86,40 +89,27 @@ export class LartiComponent implements OnInit {
   
   }
   listarAlmacenes() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.almacenes$ = this.serviAlma.getAlmacenes(usu);
+    
+    this.almacenes$ = this.serviAlma.getAlmacenes(this.usu);
   }
   listarPrecios() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.tipos$ = this.serviPre.getPrecios(usu);
+    this.tipos$ = this.serviPre.getPrecios(this.usu);
   }
   listarMarcas() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.marcas$ = this.servMar.getMarcas(usu);
+    this.marcas$ = this.servMar.getMarcas(this.usu);
   }
   listarCatalogos() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.catalogos$ = this.serviCat.getCatalogos(usu);
+    this.catalogos$ = this.serviCat.getCatalogos(this.usu);
   }
   listarLineas() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.lineas$ = this.serviLin.getLineas(usu, this.catalogo);
+    this.lineas$ = this.serviLin.getLineas(this.usu, this.catalogo);
     
   }
   listarSubLineas() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.sublineas$ = this.serviSub.getSubLineas(usu, this.catalogo,this.linea);
+    this.sublineas$ = this.serviSub.getSubLineas(this.usu, this.catalogo,this.linea);
   }
   listarFamilias() {
-    let usu = new Usuario();
-    usu.cia = '01';
-    this.familias$ = this.serviFam.getFamilias(usu, this.catalogo,this.linea,this.sublinea);
+    this.familias$ = this.serviFam.getFamilias(this.usu, this.catalogo,this.linea,this.sublinea);
   }
   filtrarMarca() {
     this.dataSource.filterPredicate = function(data, filter: string):boolean{
@@ -159,9 +149,6 @@ export class LartiComponent implements OnInit {
     this.filtrarCatalogo();
   }
   filtrarCatalogo(){
-
-      let usu = new Usuario();
-      usu.cia = '01';
       // ALERTA
       Swal.fire({
         allowOutsideClick: false, // CLICK FUERA
@@ -169,7 +156,7 @@ export class LartiComponent implements OnInit {
         text: 'Espere por favor...'
       });
       Swal.showLoading();
-      this.serviArti.getPageCata(usu, this.catalogo, this.almacen, this.tipo).subscribe(data => {
+      this.serviArti.getPageCata(this.usu, this.catalogo, this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
@@ -177,8 +164,6 @@ export class LartiComponent implements OnInit {
         });
       }
   filtrarLinea(){
-      let usu = new Usuario();
-      usu.cia = '01';
       // ALERTA
       Swal.fire({
         allowOutsideClick: false, // CLICK FUERA
@@ -186,7 +171,7 @@ export class LartiComponent implements OnInit {
         text: 'Espere por favor...'
       });
       Swal.showLoading();
-      this.serviArti.getPageAllLinea(usu, this.catalogo,this.linea, this.almacen, this.tipo).subscribe(data => {
+      this.serviArti.getPageAllLinea(this.usu, this.catalogo,this.linea, this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
@@ -194,8 +179,6 @@ export class LartiComponent implements OnInit {
         });
       }
   filtrarSubLinea(){
-      let usu = new Usuario();
-      usu.cia = '01';
       // ALERTA
       Swal.fire({
         allowOutsideClick: false, // CLICK FUERA
@@ -203,7 +186,7 @@ export class LartiComponent implements OnInit {
         text: 'Espere por favor...'
       });
       Swal.showLoading();
-      this.serviArti.getPageAllSubLinea(usu, this.catalogo, this.linea,this.sublinea,this.almacen, this.tipo).subscribe(data => {
+      this.serviArti.getPageAllSubLinea(this.usu, this.catalogo, this.linea,this.sublinea,this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
@@ -211,9 +194,6 @@ export class LartiComponent implements OnInit {
         });
       }
   filtrarCompleto(){
-      let usu = new Usuario();
-      usu.cia = '01';
-      usu.username = 'RSL';
       // ALERTA
       Swal.fire({
         allowOutsideClick: false, // CLICK FUERA
@@ -222,7 +202,7 @@ export class LartiComponent implements OnInit {
       });
       Swal.showLoading();
 
-      this.serviArti.getPageAll(usu, this.catalogo, this.linea, this.sublinea, this.familia,
+      this.serviArti.getPageAll(this.usu, this.catalogo, this.linea, this.sublinea, this.familia,
         this.almacen, this.tipo).subscribe(data => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;

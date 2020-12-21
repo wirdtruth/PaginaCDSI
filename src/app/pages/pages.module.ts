@@ -38,6 +38,7 @@ import { PagiRgtaComponent } from './pagi-rgta/pagi-rgta.component';
 import { RegistroComponent } from './registro/registro.component';
 import { RgtacdeComponent } from './rgtacde/rgtacde.component';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { Login2Component } from './login2/login2.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
     PagiRgtaComponent,
     RegistroComponent,
     RgtacdeComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    Login2Component
   ],exports: [
     ProgressComponent,
     Grafica1Component,

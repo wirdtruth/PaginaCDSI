@@ -15,9 +15,7 @@ export class CompanyService {
 
    // VAMOS A MOSTRAR LA LISTA DE COMPAÑIAS
    public getListaCias(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.other.getUrl() + '/company/list').pipe(
-      map( rest => rest as Company[])
-    );
+    return this.http.get<Company[]>(this.other.getUrl() + '/company/list');
   }
   // METODO QUE NOS TRAE UNA COMPAÑIA
   public getCompany(usuario: Usuario): Observable<Company> {

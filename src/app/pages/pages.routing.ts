@@ -1,3 +1,4 @@
+import { Login2Component } from './login2/login2.component';
 import { LartiComponent } from './larti/larti.component';
 import { HomeComponent } from './home/home.component';
 
@@ -55,6 +56,7 @@ const routes: Routes = [
           {path:  'alianzas',component: AlianzasComponent},
           {path: 'tra_rea', component: TrabajosRealizadosComponent },
           {path: 'reg_asis', component: LoginComponent },
+          {path: 'log_arti',component:Login2Component},
           { path: 'articulo',  component: LartiComponent },
           //{ path: 'articulo/page/:page',  component: LartiComponent },
           {path: 'home', component: HomeComponent } // REGISTRO DE ASISTENCIA

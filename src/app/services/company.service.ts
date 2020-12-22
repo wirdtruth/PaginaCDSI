@@ -19,9 +19,7 @@ export class CompanyService {
   }
   // METODO QUE NOS TRAE UNA COMPAÑIA
   public getCompany(usuario: Usuario): Observable<Company> {
-    return this.http.get<Company>(this.other.getUrl() + `/company/${usuario.cia}`).pipe(
-      map( rest => rest as Company)
-    );
+    return this.http.get<Company>(this.other.getUrl() + `/company/${usuario.cia}`)
   }
 
 

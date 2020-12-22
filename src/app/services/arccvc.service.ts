@@ -18,4 +18,7 @@ export class ArccvcService {
   getVendedor(cia:string,codigo:string,pass:string){
     return this.http.get<Arccvc[]>(this.url.getUrl()+`/vendedores/vendedor/${cia}/${codigo}/${pass}`)
   }
+  getVende(usuario:Usuario,codigo:string){
+    return this.http.get<Arccvc>(this.url.getUrl()+`/vendedores/ven/${usuario.cia}/${codigo}`)
+  }
 }

@@ -1,3 +1,5 @@
+import { CompanyService } from './../../services/company.service';
+import { ArccvcService } from './../../services/arccvc.service';
 import { IdArccvc } from './../../models/IdArccvc';
 import { Arccvc } from './../../models/Arccvc';
 import { Company } from 'src/app/models/company';
@@ -54,6 +56,7 @@ export class LartiComponent implements OnInit {
   familias$: Observable<Familia[]>;
   //lineas$: Linea[];
   idCatalogoSeleccionado: string;
+  fecha=Date.now();
   //linea:Linea;
   /*length: number;
   pageSize:number=8;*/
@@ -64,7 +67,7 @@ export class LartiComponent implements OnInit {
     public actiRouter: ActivatedRoute, public serviLin: LineaService,
     public serviSub: SublineaService, public serviFam: FamiliaService,
     public serviAlma: Arinbo1Service, public serviPre: ArfatpService,
-    public servMar:ArinmrService) {
+    public servMar:ArinmrService, public vende: ArccvcService, public comp:CompanyService) {
   }
   pageEvent: PageEvent;
   usu = new Usuario();
@@ -75,11 +78,17 @@ export class LartiComponent implements OnInit {
   almacen: string;
   tipo: string;
   nombre:any;
+  vendedor:string;
+  nombre_vendedor:string;
+  nombre_cia:string;
 
   ngOnInit() {
     this.usu.cia = sessionStorage.getItem('cia');
+    this.vendedor = sessionStorage.getItem('cod');
     this.almacen='1A001';
     this.tipo= 'F8';
+    this.traeCompa();
+    this.traerVende();
     this.listarCatalogos();
     this.listarAlmacenes();
     this.listarPrecios();
@@ -88,8 +97,17 @@ export class LartiComponent implements OnInit {
     this.filtrarCatalogo();
   
   }
+  traerVende(){
+    this.vende.getVende(this.usu,this.vendedor).subscribe(data =>{
+      this.nombre_vendedor=data.descripcion;
+    })
+  }
+  traeCompa(){
+    this.comp.getCompany(this.usu).subscribe(data=>{
+      this.nombre_cia=data.nombre;
+    })
+  }
   listarAlmacenes() {
-    
     this.almacenes$ = this.serviAlma.getAlmacenes(this.usu);
   }
   listarPrecios() {
@@ -118,7 +136,7 @@ export class LartiComponent implements OnInit {
     this.dataSource.filter =this.marca.trim().toLowerCase();
 
   }
-  filtrar(valor: any) {
+  filtrar(valor:any) {
     this.dataSource.filterPredicate = function(data, filter: string):boolean{
       return (data.descripcion.toLowerCase().includes(filter)||data.no_arti.toLowerCase().includes(filter));
     };

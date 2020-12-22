@@ -1,3 +1,17 @@
+.cabecera-content{
+  width: 100%;
+  display: block;
+  line-height: 0.2;
+}
+.cabecera-rigth,
+.cabecera-rigth-date{
+  float: right;
+  max-width: 50%;
+}
+.cabecera-left{
+  display: inline-block;
+  max-width: 30%;
+}
 .example-container {
   position: relative;
   min-height: 200px;
@@ -7,7 +21,6 @@
   width: 100%;
   margin: auto;
 }
-
 .example-table-container {
   position: relative;
   max-height: 500px;
@@ -86,6 +99,15 @@ table {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tit-cab{
+  float:left;
+  box-sizing: border-box;
+}
+.fecha-date{
+  float:right;
+  box-sizing: border-box;
 }
 
 .mat-header-cell {

@@ -21,8 +21,6 @@ export class Login2Component implements OnInit {
   cia: string;
   codigo: string;
   pass: string;
-  vende:Arccvc;
-  compa:Company;
   constructor(private route: ActivatedRoute, private ciaServ: CompanyService, private venServ: ArccvcService, private router: Router) { }
 
   ngOnInit() {

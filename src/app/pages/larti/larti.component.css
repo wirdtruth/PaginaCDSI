@@ -1,7 +1,7 @@
 .cabecera-content{
   width: 100%;
-  display: block;
-  line-height: 0.2;
+  display: inline-block;
+  line-height: 1.5;
 }
 .cabecera-rigth,
 .cabecera-rigth-date{
@@ -9,8 +9,8 @@
   max-width: 50%;
 }
 .cabecera-left{
-  display: inline-block;
-  max-width: 30%;
+  float: left;
+  max-width: 40%;
 }
 .example-container {
   position: relative;

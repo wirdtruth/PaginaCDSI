@@ -1,8 +1,5 @@
 import { CompanyService } from './../../services/company.service';
 import { ArccvcService } from './../../services/arccvc.service';
-import { IdArccvc } from './../../models/IdArccvc';
-import { Arccvc } from './../../models/Arccvc';
-import { Company } from 'src/app/models/company';
 import { Arinmr } from './../../models/Arinmr';
 import { ArinmrService } from './../../services/Arinmr.service';
 import { ArfatpService } from './../../services/arfatp.service';
@@ -19,7 +16,7 @@ import Swal from 'sweetalert2';
 import { Usuario } from './../../models/usuario';
 import { ArticuloService } from './../../services/articulo.service';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -67,7 +64,8 @@ export class LartiComponent implements OnInit {
     public actiRouter: ActivatedRoute, public serviLin: LineaService,
     public serviSub: SublineaService, public serviFam: FamiliaService,
     public serviAlma: Arinbo1Service, public serviPre: ArfatpService,
-    public servMar:ArinmrService, public vende: ArccvcService, public comp:CompanyService) {
+    public servMar:ArinmrService, public vende: ArccvcService, public comp:CompanyService,
+    private router: Router) {
   }
   pageEvent: PageEvent;
   usu = new Usuario();
@@ -85,16 +83,16 @@ export class LartiComponent implements OnInit {
   ngOnInit() {
     this.usu.cia = sessionStorage.getItem('cia');
     this.vendedor = sessionStorage.getItem('cod');
-    this.almacen='1A001';
-    this.tipo= 'F8';
     this.traeCompa();
     this.traerVende();
+    this.almacen='1A001';
+    this.tipo= 'F8';
     this.listarCatalogos();
     this.listarAlmacenes();
     this.listarPrecios();
     this.listarLineas();
     this.listarMarcas();
-    this.filtrarCatalogo();
+    //this.filtrarCatalogo();
   
   }
   traerVende(){
@@ -106,6 +104,9 @@ export class LartiComponent implements OnInit {
     this.comp.getCompany(this.usu).subscribe(data=>{
       this.nombre_cia=data.nombre;
     })
+  }
+  regresarLogin(){
+    this.router.navigateByUrl('/dashboard/log_arti');
   }
   listarAlmacenes() {
     this.almacenes$ = this.serviAlma.getAlmacenes(this.usu);

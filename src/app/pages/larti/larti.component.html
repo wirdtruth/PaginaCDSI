@@ -1,15 +1,16 @@
 <router-outlet></router-outlet>
 <div class="cabecera-content">
-<div class="cabecera-left">
-<h3>Listado de Articulos</h3>
-<p>{{nombre_cia}}</p> 
-</div>
-<div class="cabecera-rigth">
-<p>Vendedor:{{nombre_vendedor}}</p> 
-<div class="cabecera-rigth-date">
-<p>{{fecha | date:'short'}}</p>
-</div>
-</div>
+  <div class="cabecera-left">
+    <h3>Listado de Articulos</h3>
+    {{nombre_cia}}
+  </div>
+  <div class="cabecera-rigth">
+    <p>Vendedor: {{nombre_vendedor}}</p>
+    <div class="cabecera-rigth-date">
+      {{fecha | date:'short'}}
+      <button mat-raised-button (click)="regresarLogin()" class="salir" >Salir</button>
+    </div>
+  </div>
 </div>
 <div class="row">
   <div class="col-md-2">

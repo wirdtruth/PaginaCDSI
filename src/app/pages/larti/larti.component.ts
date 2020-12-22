@@ -92,7 +92,7 @@ export class LartiComponent implements OnInit {
     this.listarPrecios();
     this.listarLineas();
     this.listarMarcas();
-    //this.filtrarCatalogo();
+    this.filtrarCatalogo();
   
   }
   traerVende(){
@@ -170,6 +170,7 @@ export class LartiComponent implements OnInit {
   filtrarCatalogo(){
       // ALERTA
       Swal.fire({
+        
         allowOutsideClick: false, // CLICK FUERA
         icon: 'info',
         text: 'Espere por favor...'

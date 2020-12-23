@@ -1,12 +1,26 @@
 .cabecera-content{
   width: 100%;
   display: inline-block;
-  line-height: 1.5;
+  line-height: 1;
+  font-size: 0.9em;
+  padding-bottom: 0.1em;
+  box-sizing: border-box;
 }
-.cabecera-rigth,
+.cabecera-rigth{
+  float: right;
+  max-width: 40%;
+  /*border: 1px solid black;*/
+}
 .cabecera-rigth-date{
   float: right;
-  max-width: 50%;
+  /*border: 1px solid black;*/
+  text-align: end;
+}
+.cabecera-rigth-vende{
+  float: right;
+  text-align: end;
+  /*border: 1px solid black;*/
+  padding-bottom: 0.5em;
 }
 .cabecera-left{
   float: left;

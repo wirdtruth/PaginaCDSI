@@ -5,16 +5,18 @@
     {{nombre_cia}}
   </div>
   <div class="cabecera-rigth">
-    <p>Vendedor: {{nombre_vendedor}}</p>
+    <div class="cabecera-rigth-vende">
+      Vendedor: {{nombre_vendedor}}
+    </div>
     <div class="cabecera-rigth-date">
       {{fecha | date:'short'}}
-      <button mat-raised-button (click)="regresarLogin()" class="salir" >Salir</button>
+      <button mat-raised-button (click)="regresarLogin()" class="salir">Salir</button>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-2">
-    <div>
+    <div class="content-filters">
       <h2>Filtros</h2>
       <mat-form-field>
         <mat-select placeholder="Almacen" [(ngModel)]="almacen">

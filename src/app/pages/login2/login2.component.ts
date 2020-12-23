@@ -1,10 +1,11 @@
+import { Company } from './../../models/company';
+import { IdArccvc } from './../../models/IdArccvc';
 import { Arccvc } from './../../models/Arccvc';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ArccvcService } from './../../services/arccvc.service';
 import { CompanyService } from './../../services/company.service';
-import { Company } from 'src/app/models/company';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -16,27 +17,43 @@ import Swal from 'sweetalert2';
 export class Login2Component implements OnInit {
 
   company$: Observable<Company[]>;
-  vendedor: Array<Arccvc[]>;
+  vendedor: Arccvc;
+  idVende: IdArccvc;
+  company: Company;
   form: FormGroup;
-  cia: string;
-  codigo: string;
-  pass: string;
-  constructor(private route: ActivatedRoute, private ciaServ: CompanyService, private venServ: ArccvcService, private router: Router) { }
+  
+
+  constructor(private route: ActivatedRoute,
+    private ciaServ: CompanyService,
+    private venServ: ArccvcService,
+    private router: Router) { }
 
   ngOnInit() {
     this.listarCias();
-  }
+    this.company = new Company();
+    this.idVende = new IdArccvc();
+    this.vendedor = new Arccvc();
 
+    this.form = new FormGroup({
+      'cia': new FormControl(''),
+      'codigo': new FormControl(''),
+      'pass': new FormControl('')
+    });
+  }
   listarCias() {
     this.company$ = this.ciaServ.getListaCias();
   }
   obtenerVendedor() {
-    this.venServ.getVendedor(this.cia, this.codigo, this.pass).subscribe(data => {
+    this.company.cia = this.form.value['cia'];
+    this.idVende.codigo = this.form.value['codigo'];
+    this.vendedor.pass = this.form.value['pass'];
+
+    this.venServ.getVendedor(this.company, this.idVende, this.vendedor).subscribe(data => {
       Swal.close(); // SE CIERRA EL MENSAJE
       this.router.navigateByUrl('/dashboard/articulo');// NAVEGA HACIA EL HOME
     }, err => {
       if (err.status == 404) {
-        console.error(err);
+        //console.error(err);
         Swal.close(); // SE CIERRA EL MENSAJE
         Swal.fire({
           allowOutsideClick: false, // CLICK FUERA
@@ -48,10 +65,9 @@ export class Login2Component implements OnInit {
     this.guardarCampos();
   }
   guardarCampos() {
-    if (this.cia !== null || this.cia !== 'undefined' || this.codigo !== null || this.codigo !== 'undefined' ||
-      this.pass !== null || this.pass !== 'undefined') {
-      sessionStorage.setItem('cia', this.cia.toString());
-      sessionStorage.setItem('cod', this.codigo.toString());
+    if (this.company != null && this.idVende != null && this.vendedor != null) {
+      sessionStorage.setItem('cia', this.company.cia.toString());
+      sessionStorage.setItem('cod', this.idVende.codigo.toString());
     }
   }
 

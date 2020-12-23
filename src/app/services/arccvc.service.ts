@@ -1,3 +1,4 @@
+import { IdArccvc } from './../models/IdArccvc';
 import { OtherService } from './other.service';
 import { Arccvc } from './../models/Arccvc';
 import { Company } from 'src/app/models/company';
@@ -15,8 +16,8 @@ export class ArccvcService {
   getVendedores(cia:string){
     return this.http.get<Arccvc[]>(this.url.getUrl()+`/vendedores/list/${cia}`)
   }
-  getVendedor(cia:string,codigo:string,pass:string){
-    return this.http.get<Arccvc[]>(this.url.getUrl()+`/vendedores/vendedor/${cia}/${codigo}/${pass}`)
+  getVendedor(company:Company,idven:IdArccvc,vende:Arccvc){
+    return this.http.get<Arccvc[]>(this.url.getUrl()+`/vendedores/vendedor/${company.cia}/${idven.codigo}/${vende.pass}`)
   }
   getVende(usuario:Usuario,codigo:string){
     return this.http.get<Arccvc>(this.url.getUrl()+`/vendedores/ven/${usuario.cia}/${codigo}`)

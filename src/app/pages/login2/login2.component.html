@@ -7,13 +7,13 @@
                     <h2 class="box-title text-center text-info"><strong>LOGIN DE ARTICULOS</strong></h2>
                     <hr>
                     <mat-form-field>
-                        <mat-select placeholder="Compañias" formControlName="cia">
-                            <mat-option *ngFor="let c of ( company$ | async )" [value]="c.cia">
+                        <mat-select placeholder="Compañias" [(value)]="companySeleccionada" formControlName="cia" >
+                            <mat-option *ngFor="let c of companys" [value]="c">
                                 {{c.nombre}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    
+
                     <div class="form-group col-xs-12">
                         <label for="exampleInputuname">Usuario</label>
                         <div class="input-group">
@@ -31,7 +31,7 @@
                                 formControlName="pass">
                         </div>
                     </div>
-                    
+
                     <div class="container">
                         <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit" [disabled]="frmLog.invalid">INGRESAR</button>
                     </div>

@@ -82,9 +82,9 @@ export class LartiComponent implements OnInit {
 
   ngOnInit() {
     this.usu.cia = sessionStorage.getItem('cia');
+    this.nombre_cia= sessionStorage.getItem('nomCia');
     this.vendedor = sessionStorage.getItem('cod');
-    this.traeCompa();
-    this.traerVende();
+    this.nombre_vendedor = sessionStorage.getItem('nombre');
     this.almacen='1A001';
     this.tipo= 'F8';
     this.listarCatalogos();
@@ -93,17 +93,7 @@ export class LartiComponent implements OnInit {
     this.listarLineas();
     this.listarMarcas();
     this.filtrarCatalogo();
-  
-  }
-  traerVende(){
-    this.vende.getVende(this.usu,this.vendedor).subscribe(data =>{
-      this.nombre_vendedor=data.descripcion;
-    })
-  }
-  traeCompa(){
-    this.comp.getCompany(this.usu).subscribe(data=>{
-      this.nombre_cia=data.nombre;
-    })
+
   }
   regresarLogin(){
     this.router.navigateByUrl('/dashboard/log_arti');
@@ -122,7 +112,7 @@ export class LartiComponent implements OnInit {
   }
   listarLineas() {
     this.lineas$ = this.serviLin.getLineas(this.usu, this.catalogo);
-    
+
   }
   listarSubLineas() {
     this.sublineas$ = this.serviSub.getSubLineas(this.usu, this.catalogo,this.linea);
@@ -147,18 +137,18 @@ export class LartiComponent implements OnInit {
     if(typeof this.linea ==='undefined' && typeof this.sublinea ==='undefined' && typeof this.familia ==='undefined' ||
     this.linea ==='' &&  this.sublinea ==='' &&  this.familia ===''){
       this.filtrarCatalogo();
-    } 
-    if(typeof this.linea !== 'undefined' && typeof this.sublinea ==='undefined' && typeof this.familia ==='undefined' || 
+    }
+    if(typeof this.linea !== 'undefined' && typeof this.sublinea ==='undefined' && typeof this.familia ==='undefined' ||
     typeof this.linea !== 'undefined' &&  this.sublinea ==='' &&  this.familia ===''){
       this.filtrarLinea();
-    } 
+    }
       if(typeof this.linea !== 'undefined' && typeof this.sublinea !== 'undefined' && typeof this.familia ==='undefined' ||
       typeof this.linea === 'undefined' &&  typeof this.sublinea ==='undefined' &&  this.familia ===''){
         this.filtrarSubLinea();
-      } 
+      }
         if(typeof this.linea !== 'undefined' && typeof this.sublinea !== 'undefined' && typeof this.familia !== 'undefined'){
           this.filtrarCompleto()
-        } 
+        }
       }
   borrarFiltros(){
     this.linea= '';
@@ -170,7 +160,7 @@ export class LartiComponent implements OnInit {
   filtrarCatalogo(){
       // ALERTA
       Swal.fire({
-        
+
         allowOutsideClick: false, // CLICK FUERA
         icon: 'info',
         text: 'Espere por favor...'

@@ -18,8 +18,8 @@ export class CompanyService {
     return this.http.get<Company[]>(this.other.getUrl() + '/company/list');
   }
   // METODO QUE NOS TRAE UNA COMPAÑIA
-  public getCompany(usuario: Usuario): Observable<Company> {
-    return this.http.get<Company>(this.other.getUrl() + `/company/${usuario.cia}`)
+  public getCompany(cia: Usuario): Observable<Company> {
+    return this.http.get<Company>(this.other.getUrl() + `/company/${cia}`)
   }
 
 

@@ -1,3 +1,4 @@
+import { VendedorDTO } from './../../DTO/VendedorDTO';
 import { Company } from './../../models/company';
 import { IdArccvc } from './../../models/IdArccvc';
 import { Arccvc } from './../../models/Arccvc';
@@ -16,12 +17,12 @@ import Swal from 'sweetalert2';
 })
 export class Login2Component implements OnInit {
 
-  company$: Observable<Company[]>;
+  companys: Company[] = [];
+  companySeleccionada: Company;
   vendedor: Arccvc;
   idVende: IdArccvc;
-  company: Company;
   form: FormGroup;
-  
+
 
   constructor(private route: ActivatedRoute,
     private ciaServ: CompanyService,
@@ -30,7 +31,6 @@ export class Login2Component implements OnInit {
 
   ngOnInit() {
     this.listarCias();
-    this.company = new Company();
     this.idVende = new IdArccvc();
     this.vendedor = new Arccvc();
 
@@ -41,15 +41,22 @@ export class Login2Component implements OnInit {
     });
   }
   listarCias() {
-    this.company$ = this.ciaServ.getListaCias();
+    this.ciaServ.getListaCias().subscribe(data => {
+      this.companys = data;
+    });
   }
   obtenerVendedor() {
-    this.company.cia = this.form.value['cia'];
+
+    this.companySeleccionada = this.form.value['cia'];
     this.idVende.codigo = this.form.value['codigo'];
     this.vendedor.pass = this.form.value['pass'];
 
-    this.venServ.getVendedor(this.company, this.idVende, this.vendedor).subscribe(data => {
+    let vende = new VendedorDTO(this.companySeleccionada.cia,this.form.value['codigo'],this.form.value['pass'])
+
+    this.venServ.getVendedor(vende).subscribe(data => {
+      this.vendedor=data;
       Swal.close(); // SE CIERRA EL MENSAJE
+      this.guardarCampos();
       this.router.navigateByUrl('/dashboard/articulo');// NAVEGA HACIA EL HOME
     }, err => {
       if (err.status == 404) {
@@ -62,12 +69,15 @@ export class Login2Component implements OnInit {
         });
       }
     });
-    this.guardarCampos();
+
   }
   guardarCampos() {
-    if (this.company != null && this.idVende != null && this.vendedor != null) {
-      sessionStorage.setItem('cia', this.company.cia.toString());
-      sessionStorage.setItem('cod', this.idVende.codigo.toString());
+    if (this.companySeleccionada != null && this.idVende != null && this.vendedor != null) {
+      sessionStorage.setItem('cia', this.companySeleccionada.cia);
+      sessionStorage.setItem('nomCia', this.companySeleccionada.nombre);
+      sessionStorage.setItem('cod', this.idVende.codigo);
+      sessionStorage.setItem('nombre',this.vendedor.descripcion);
+      console.log(sessionStorage.getItem('cod'),sessionStorage.getItem('nombre'));
     }
   }
 

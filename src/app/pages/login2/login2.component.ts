@@ -22,7 +22,7 @@ export class Login2Component implements OnInit {
   vendedor: Arccvc;
   idVende: IdArccvc;
   form: FormGroup;
-
+  codEmpleado: string;
 
   constructor(private route: ActivatedRoute,
     private ciaServ: CompanyService,
@@ -54,10 +54,24 @@ export class Login2Component implements OnInit {
     let vende = new VendedorDTO(this.companySeleccionada.cia,this.form.value['codigo'],this.form.value['pass'])
 
     this.venServ.getVendedor(vende).subscribe(data => {
-      this.vendedor=data;
-      Swal.close(); // SE CIERRA EL MENSAJE
-      this.guardarCampos();
-      this.router.navigateByUrl('/dashboard/articulo');// NAVEGA HACIA EL HOME
+      this.vendedor=data; // SE
+      this.venServ.vendeCaja(vende).subscribe(x => {
+        //console.log(x);
+        this.codEmpleado = x.codEmp;
+        Swal.close();
+        this.guardarCampos();
+        this.router.navigateByUrl('/dashboard/articulo');
+      },err =>{
+        if (err.status == 404) {
+          Swal.close(); // SE CIERRA EL MENSAJE
+          Swal.fire({
+            allowOutsideClick: false, // CLICK FUERA
+            icon: 'info',
+            title: 'Vendedor no registrado'
+          });
+        }
+      })
+      // NAVEGA HACIA EL HOME
     }, err => {
       if (err.status == 404) {
         //console.error(err);
@@ -77,7 +91,8 @@ export class Login2Component implements OnInit {
       sessionStorage.setItem('nomCia', this.companySeleccionada.nombre);
       sessionStorage.setItem('cod', this.idVende.codigo);
       sessionStorage.setItem('nombre',this.vendedor.descripcion);
-      console.log(sessionStorage.getItem('cod'),sessionStorage.getItem('nombre'));
+      sessionStorage.setItem('codEmp',this.codEmpleado);
+      console.log(sessionStorage.getItem('codEmp'));
     }
   }
 

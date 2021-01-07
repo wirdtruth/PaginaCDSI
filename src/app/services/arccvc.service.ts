@@ -20,4 +20,7 @@ export class ArccvcService {
   getVendedor(vendedor:VendedorDTO){
     return this.http.post<Arccvc>(this.url.getUrl()+`/vendedores/vendedor`,vendedor);
   }
+  vendeCaja(vendedor:VendedorDTO){
+    return this.http.post<VendedorDTO>(this.url.getUrl()+`/vendedores/vendedor/caja`,vendedor);
+  }
 }

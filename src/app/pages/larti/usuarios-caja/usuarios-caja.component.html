@@ -1,0 +1,28 @@
+<h2 class="mat-h2">Input Mantenimiento Cajas</h2>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Usuarios</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <mat-select placeholder="Usuarios" [(ngModel)]="empleadoSeleccionado" (selectionChange)="cajasAbiertasCajero()">
+        <mat-option *ngFor="let e of empleados" [value]="e">
+          {{e.idUsuario.usuario}} {{e.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Cajas" [(value)]="codCaja">
+        <mat-option *ngFor="let c of cajas" [value]="c.idArcaja.codCaja">
+          {{c.idArcaja.codCaja}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+</mat-card>
+<button mat-raised-button color="primary" (click)="aceptar()">Aceptar</button>
+<span class="example-spacer"></span>
+<button mat-raised-button color="accent" (click)="cancelar()">Cerrar</button>

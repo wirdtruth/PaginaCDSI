@@ -1,6 +1,6 @@
 import { IdArfatp } from './IdArfatp';
 export class Arfatp{
-    idArf:IdArfatp;
+  idArfa:IdArfatp;
     descripcion:string;
     moneda:string;
 }

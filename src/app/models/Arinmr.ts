@@ -1,5 +1,5 @@
 import { IdArinmr } from './IdArinmr';
 export class Arinmr{
-    idArin:IdArinmr;;
+  idMar:IdArinmr;;
     descripcion:string;
 }

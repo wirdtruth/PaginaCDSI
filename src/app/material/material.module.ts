@@ -1,3 +1,4 @@
+import { CustomAdapter } from './CustomAdapter';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorImpl } from './mat-paginator';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   declarations: [],
   imports: [
@@ -39,10 +41,14 @@ import { MatSelectModule } from '@angular/material/select';
     MatSnackBarModule,
     MatAutocompleteModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
-    { provide: MatPaginatorIntl, useClass: MatPaginatorImpl }
+    { provide: MatPaginatorIntl, useClass: MatPaginatorImpl },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: DateAdapter, useClass: CustomAdapter }
   ]
 })
 export class MaterialModule { }

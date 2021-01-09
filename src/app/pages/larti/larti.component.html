@@ -11,6 +11,7 @@
     <div class="cabecera-rigth-date">
       {{fecha | date:'short'}}
       <button mat-raised-button (click)="regresarLogin()" class="salir">Salir</button>
+      <button mat-raised-button (click)="verUsuarios()">Caja</button>
     </div>
   </div>
 </div>
@@ -115,7 +116,7 @@
   <ng-container matColumnDef="fecha">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.fecha | date :'short'}} </mat-cell>
-  </ng-container> 
+  </ng-container>
 -->
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;">
@@ -127,7 +128,7 @@
 
       </div>
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[1, 5, 8]" showFirstLastButtons></mat-paginator>
-      <!--<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[1, 5, 8]" 
+      <!--<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[1, 5, 8]"
 (page)="pageEvent = $event"></mat-paginator>
       <app-pagi-rgta1 *ngIf="paginador" [paginador]="paginador"></app-pagi-rgta1>-->
     </div>

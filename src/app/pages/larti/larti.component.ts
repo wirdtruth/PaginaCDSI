@@ -1,3 +1,7 @@
+import { MatDialog } from '@angular/material/dialog';
+import { UsuariosCajaComponent } from './usuarios-caja/usuarios-caja.component';
+import { TapusupvenService } from './../../services/tapusupven.service';
+import { ArcaaccajService } from './../../services/arcaaccaj.service';
 import { CompanyService } from './../../services/company.service';
 import { ArccvcService } from './../../services/arccvc.service';
 import { Arinmr } from './../../models/Arinmr';
@@ -60,11 +64,14 @@ export class LartiComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public serviArti: ArticuloService, public serviCat: CatalogoService,
+  constructor(
+    private dialog: MatDialog,
+    public serviArti: ArticuloService, public serviCat: CatalogoService,
     public actiRouter: ActivatedRoute, public serviLin: LineaService,
     public serviSub: SublineaService, public serviFam: FamiliaService,
     public serviAlma: Arinbo1Service, public serviPre: ArfatpService,
     public servMar:ArinmrService, public vende: ArccvcService, public comp:CompanyService,
+    public cajaService: ArcaaccajService, public usuService: TapusupvenService,
     private router: Router) {
   }
   pageEvent: PageEvent;
@@ -77,6 +84,7 @@ export class LartiComponent implements OnInit {
   tipo: string;
   nombre:any;
   vendedor:string;
+  codEmp:string
   nombre_vendedor:string;
   nombre_cia:string;
 
@@ -84,6 +92,7 @@ export class LartiComponent implements OnInit {
     this.usu.cia = sessionStorage.getItem('cia');
     this.nombre_cia= sessionStorage.getItem('nomCia');
     this.vendedor = sessionStorage.getItem('cod');
+    this.codEmp = sessionStorage.getItem('codEmp');
     this.nombre_vendedor = sessionStorage.getItem('nombre');
     this.almacen='1A001';
     this.tipo= 'F8';
@@ -92,7 +101,7 @@ export class LartiComponent implements OnInit {
     this.listarPrecios();
     this.listarLineas();
     this.listarMarcas();
-    this.filtrarCatalogo();
+    //this.filtrarCatalogo();
 
   }
   regresarLogin(){
@@ -220,7 +229,7 @@ export class LartiComponent implements OnInit {
           Swal.close();
         });
     }
-
-   /* );
-    }*/
+  verUsuarios(){
+      this.dialog.open(UsuariosCajaComponent)
+    }
 }

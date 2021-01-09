@@ -1,3 +1,5 @@
+import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component';
+import { CajaComponent } from './caja/caja.component';
 import { Login2Component } from './login2/login2.component';
 import { LartiComponent } from './larti/larti.component';
 import { HomeComponent } from './home/home.component';
@@ -24,50 +26,54 @@ import { NgModule } from '@angular/core';
 import { NuestroProductosComponent } from './nuestro-productos/nuestro-productos.component';
 
 const routes: Routes = [
- 
-    {
-        path: 'dashboard', component: PagesComponent,
-        children: [
-          {path: '', component: DashboardComponent },
-          {path: 'consulta-especial', component: ConsultaEspecialComponent },
-          {path: 'cdsi', component: NuestraEmpresaComponent },
-          {path: 'productos',
-            children: [
-                {path: '', component: NuestroProductosComponent },
-                {path: 'sgcor', component: SgcorComponent }
-            ]
-          }, 
-          /* {path: 'servicios', component: NuestroServicioComponent}, */
-          {path: 'servicios',
-            children: [
-                {path: '', component: NuestroServicioComponent },
-                {path: 'pcpe_produccion', component: PcpeProduccionComponent },
-                {path: 'pcpe_sgcor', component: PcpeSgcorComponent },
-                {path: 'pcpe_sgdi', component: PcpeSgcorComponent },
-                {path: 'pcpe_sileg', component: PcpeSilegComponent }
-            ]
-          },
-        /*   {path: 'pcpe_produccion', component: PcpeProduccionComponent }, reg_asis */
-          {path: 'isaneg', component: IsanegComponent },
-          {path: 'con_inv_ope', component: CioComponent },
-          {path:  'tra_rea_io',component: CiopeComponent},
-          {path:  'clientes',component: ClientesComponent},
-          {path:  'capacitacion',component: CapacitacionComponent},
-          {path:  'alianzas',component: AlianzasComponent},
-          {path: 'tra_rea', component: TrabajosRealizadosComponent },
-          {path: 'reg_asis', component: LoginComponent },
-          {path: 'log_arti',component:Login2Component},
-          { path: 'articulo',  component: LartiComponent },
-          //{ path: 'articulo/page/:page',  component: LartiComponent },
-          {path: 'home', component: HomeComponent } // REGISTRO DE ASISTENCIA
 
+  {
+    path: 'dashboard', component: PagesComponent,
+    children: [
+      { path: '', component: DashboardComponent },
+      { path: 'consulta-especial', component: ConsultaEspecialComponent },
+      { path: 'cdsi', component: NuestraEmpresaComponent },
+      {
+        path: 'productos',
+        children: [
+          { path: '', component: NuestroProductosComponent },
+          { path: 'sgcor', component: SgcorComponent }
         ]
-    }
-    
+      },
+      /* {path: 'servicios', component: NuestroServicioComponent}, */
+      {
+        path: 'servicios',
+        children: [
+          { path: '', component: NuestroServicioComponent },
+          { path: 'pcpe_produccion', component: PcpeProduccionComponent },
+          { path: 'pcpe_sgcor', component: PcpeSgcorComponent },
+          { path: 'pcpe_sgdi', component: PcpeSgcorComponent },
+          { path: 'pcpe_sileg', component: PcpeSilegComponent }
+        ]
+      },
+      /*   {path: 'pcpe_produccion', component: PcpeProduccionComponent }, reg_asis */
+      { path: 'isaneg', component: IsanegComponent },
+      { path: 'con_inv_ope', component: CioComponent },
+      { path: 'tra_rea_io', component: CiopeComponent },
+      { path: 'clientes', component: ClientesComponent },
+      { path: 'capacitacion', component: CapacitacionComponent },
+      { path: 'alianzas', component: AlianzasComponent },
+      { path: 'tra_rea', component: TrabajosRealizadosComponent },
+      { path: 'reg_asis', component: LoginComponent },
+      { path: 'log_arti', component: Login2Component },
+      { path: 'articulo', component: LartiComponent },
+      {
+        path: 'caja', component: CajaComponent},
+      //{ path: 'articulo/page/:page',  component: LartiComponent },
+      { path: 'home', component: HomeComponent } // REGISTRO DE ASISTENCIA
+
+    ]
+  }
+
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

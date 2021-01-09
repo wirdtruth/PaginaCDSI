@@ -39,6 +39,9 @@ import { RegistroComponent } from './registro/registro.component';
 import { RgtacdeComponent } from './rgtacde/rgtacde.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { Login2Component } from './login2/login2.component';
+import { CajaComponent } from './caja/caja.component';
+import { UsuariosCajaComponent } from './larti/usuarios-caja/usuarios-caja.component';
+import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { Login2Component } from './login2/login2.component';
     RegistroComponent,
     RgtacdeComponent,
     UsuarioComponent,
-    Login2Component
+    Login2Component,
+    CajaComponent,
+    UsuariosCajaComponent,
+    CajaEdicionComponent
   ],exports: [
     ProgressComponent,
     Grafica1Component,

@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 //ANGULAR MATERIA
-import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 @NgModule({

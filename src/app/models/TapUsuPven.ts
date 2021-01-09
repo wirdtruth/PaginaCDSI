@@ -1,6 +1,6 @@
 import { IdTapUsuPven } from './IdTapUsuPven';
 export class TapUsuPven{
-  idTap:IdTapUsuPven;
+  idUsuario:IdTapUsuPven;
 
   nombre:string;
   tipusua:string;

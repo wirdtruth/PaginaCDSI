@@ -1,6 +1,6 @@
 import { IdArcaaccaj } from './IdArcaaccaj';
 export class Arcaaccaj{
-  idArcaa: IdArcaaccaj;
+  idArcaja: IdArcaaccaj;
 
   fecha: string;
   cajera: string;

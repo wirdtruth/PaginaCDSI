@@ -60,7 +60,7 @@ const routes: Routes = [
       { path: 'alianzas', component: AlianzasComponent },
       { path: 'tra_rea', component: TrabajosRealizadosComponent },
       { path: 'reg_asis', component: LoginComponent },
-      { path: 'log_arti', component: Login2Component },
+      { path: 'log_arti/:id', component: Login2Component },
       { path: 'articulo', component: LartiComponent },
       {
         path: 'caja', component: CajaComponent},

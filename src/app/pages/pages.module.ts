@@ -40,7 +40,7 @@ import { RgtacdeComponent } from './rgtacde/rgtacde.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { Login2Component } from './login2/login2.component';
 import { CajaComponent } from './caja/caja.component';
-import { UsuariosCajaComponent } from './larti/usuarios-caja/usuarios-caja.component';
+import { UsuariosCajaComponent } from './caja/usuarios-caja/usuarios-caja.component';
 import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component';
 
 @NgModule({

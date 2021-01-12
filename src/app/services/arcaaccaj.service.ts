@@ -38,7 +38,10 @@ export class ArcaaccajService {
   eliminar(id: IdArcaaccaj){
     return this.http.post(this.url.getUrl() + `/cajas/eliminar`,id);
   }
-  cajas(cia:string,centro:string){
+  cajaSeleccioanda(cia:string,centro:string){
+    return this.http.get<CajaDTO[]>(this.url.getUrl()+`/cajas/seleccionada/${cia}/${centro}`);
+  }
+  cajaRegistro(cia:string,centro:string){
     return this.http.get<CajaDTO[]>(this.url.getUrl()+`/cajas/${cia}/${centro}`);
   }
 }

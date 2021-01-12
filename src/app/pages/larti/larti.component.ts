@@ -1,5 +1,4 @@
 import { MatDialog } from '@angular/material/dialog';
-import { UsuariosCajaComponent } from './usuarios-caja/usuarios-caja.component';
 import { TapusupvenService } from './../../services/tapusupven.service';
 import { ArcaaccajService } from './../../services/arcaaccaj.service';
 import { CompanyService } from './../../services/company.service';
@@ -101,7 +100,7 @@ export class LartiComponent implements OnInit {
     this.listarPrecios();
     this.listarLineas();
     this.listarMarcas();
-    //this.filtrarCatalogo();
+    this.filtrarCatalogo();
 
   }
   regresarLogin(){
@@ -228,8 +227,5 @@ export class LartiComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           Swal.close();
         });
-    }
-  verUsuarios(){
-      this.dialog.open(UsuariosCajaComponent)
     }
 }

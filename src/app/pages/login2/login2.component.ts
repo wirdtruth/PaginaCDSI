@@ -20,6 +20,8 @@ import { switchMap } from 'rxjs/operators';
 })
 export class Login2Component implements OnInit {
 
+  id: number;
+  titulo:string;
   companys: Company[] = [];
   companySeleccionada: Company;
   vendedor: Arccvc;
@@ -28,7 +30,9 @@ export class Login2Component implements OnInit {
   form: FormGroup;
   codEmpleado: string;
 
-  constructor(private ciaServ: CompanyService,
+  constructor(
+    private route: ActivatedRoute,
+    private ciaServ: CompanyService,
     private venServ: ArccvcService,
     private router: Router) { }
 
@@ -41,6 +45,16 @@ export class Login2Component implements OnInit {
       'codigo': new FormControl(''),
       'pass': new FormControl('')
     });
+
+    this.route.params.subscribe((data:Params) =>{
+      this.id=data['id'];
+      if(this.id==1){
+        this.titulo="ARTICULOS";
+      }else{
+        this.titulo="VENTAS";
+      }
+    })
+
   }
   listarCias() {
     this.ciaServ.getListaCias().subscribe(data => {
@@ -60,7 +74,12 @@ export class Login2Component implements OnInit {
         this.codEmpleado = x.codEmp;
         Swal.close();
         this.guardarCampos();
-        this.router.navigateByUrl('/dashboard/articulo');
+        if(this.id==1){
+          this.router.navigateByUrl('/dashboard/articulo');
+        }else{
+          this.router.navigateByUrl('/dashboard/caja');
+        }
+
       }, err => {
         if (err.status == 404) {
           Swal.close();

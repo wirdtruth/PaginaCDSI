@@ -12,6 +12,7 @@ import { Arcaaccaj } from './../../../models/Arcaaccaj';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-caja-edicion',
@@ -21,7 +22,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class CajaEdicionComponent implements OnInit {
 
   form: FormGroup;
-  edicion:boolean;
+  edicion: boolean;
   idCaja: IdArcaaccaj;
   cajeros$: Observable<TapUsuPven[]>;
   cajas$: Observable<CajaDTO[]>;
@@ -43,34 +44,29 @@ export class CajaEdicionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listaCajas();
-    this.listaCajeros();
-
-   if(this.data.cajera == null){
-     this.edicion=false;
-     console.log(this.edicion);
-
-    this.form = new FormGroup({
-      cia: new FormControl(sessionStorage.getItem('cia')),
-      centro: new FormControl(sessionStorage.getItem('centro')),
-      caja: new FormControl(''),
-      codAper: new FormControl(''),
-      fecha: new FormControl(),
-      hora: new FormControl(''),
-      cajera: new FormControl(''),
-      saldoInicial: new FormControl(0),
-      estado: new FormControl('A'),
-      fechaCierre: new FormControl(),
-      horaCierre: new FormControl('')
-    })
-    }else{
-      this.edicion=true;
-      console.log(this.edicion);
+    if (this.data.cajera == null) {
+      this.edicion = false;
+      this.form = new FormGroup({
+        cia: new FormControl(sessionStorage.getItem('cia')),
+        centro: new FormControl(sessionStorage.getItem('centro')),
+        caja: new FormControl(''),
+        codAper: new FormControl(''),
+        fecha: new FormControl(this.maxFecha),
+        hora: new FormControl(moment(this.maxFecha).format('HH:mm')),
+        cajera: new FormControl(''),
+        saldoInicial: new FormControl(0),
+        estado: new FormControl('A'),
+        fechaCierre: new FormControl(),
+        horaCierre: new FormControl('')
+      })
+    } else {
+      this.edicion = true;
       this.initForm();
     }
-
+    this.listaCajeros();
+    this.listaCajas();
   }
-  initForm(){
+  initForm() {
     this.form = new FormGroup({
       cia: new FormControl(this.data.idArcaja.cia),
       centro: new FormControl(this.data.idArcaja.centro),
@@ -89,7 +85,15 @@ export class CajaEdicionComponent implements OnInit {
     this.cajeros$ = this.usuService.cajeros(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
   }
   listaCajas() {
-    this.cajas$ = this.cajaService.cajas(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
+    if (this.edicion){
+      this.cajas$ = this.cajaService.cajaSeleccioanda(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
+    }else{
+      this.cajas$ = this.cajaService.cajaRegistro(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
+    }
+    //this.cajas$ = this.cajaService.cajas(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
+  }
+  validaCaja(){
+    return(this.edicion);
   }
   operar() {
     let idCaja = new IdArcaaccaj();
@@ -107,21 +111,24 @@ export class CajaEdicionComponent implements OnInit {
     caja.fechaCierre = this.form.value['fechaCierre'];
     caja.horaCierre = this.form.value['horaCierre'];
 
-    let datos = new DatosCajaDTO(idCaja.cia,idCaja.centro,idCaja.codCaja,
+    this.maxFecha.setHours(0);
+    this.maxFecha.setMinutes(0);
+    this.maxFecha.setSeconds(0);
+    this.maxFecha.setMilliseconds(0);
+    let datos = new DatosCajaDTO(idCaja.cia, idCaja.centro, idCaja.codCaja,
       caja.cajera)
-    if(this.edicion){
-      console.log("1");
-      this.cajaService.actualizaCaja(caja).pipe(switchMap( () =>{
-        return this.cajaService.caja(datos);
-      })).subscribe(data=>{
+      datos.fecha =moment(this.maxFecha).format('YYYY-MM-DDTHH:mm:ss');
+    if (this.edicion) {
+      this.cajaService.actualizaCaja(caja).pipe(switchMap(() => {
+        return this.cajaService.totalCajas(datos);
+      })).subscribe(data => {
         this.cajaService.cajasCreadas.next(data);
         this.cajaService.mensajeCambio.next('SE ACTUALIZÓ');
       });
-    }else{
-      console.log("2");
-      this.cajaService.aperturaCaja(caja).pipe(switchMap( () =>{
-        return this.cajaService.caja(datos);
-      })).subscribe(data=>{
+    } else {
+      this.cajaService.aperturaCaja(caja).pipe(switchMap(() => {
+        return this.cajaService.totalCajas(datos);
+      })).subscribe(data => {
         this.cajaService.cajasCreadas.next(data);
         this.cajaService.mensajeCambio.next('SE REGISTRÓ');
       });

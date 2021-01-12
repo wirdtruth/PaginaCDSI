@@ -17,11 +17,11 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Hora" formControlName="hora">
+    <input matInput placeholder="Hora"  formControlName="hora">
   </mat-form-field>
   <br>
   <mat-form-field>
-    <mat-select placeholder="Selecciona Caja" [(value)]="cajaSeleccionada" formControlName="caja">
+    <mat-select placeholder="Selecciona Caja" [disabled]="validaCaja()" [(value)]="cajaSeleccionada" formControlName="caja">
       <mat-option *ngFor="let c of (cajas$ | async)" [value]="c.codigo">
         {{c.codigo}} {{c.moneda}}
       </mat-option>
@@ -41,7 +41,7 @@
   </mat-form-field>
   <br>
   <mat-form-field>
-    <mat-select placeholder="Selecciona Estado" [(value)]="estadoSeleccionado" formControlName="estado">
+    <mat-select placeholder="Selecciona Estado" disabled [(value)]="estadoSeleccionado" formControlName="estado">
       <mat-option *ngFor="let e of estados" [value]="e.codigo">
         {{e.nombre}}
       </mat-option>

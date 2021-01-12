@@ -1,13 +1,13 @@
 import Swal from 'sweetalert2';
-import { DatosCajaDTO } from './../../../DTO/DatosCajaDTO';
-import { ArcaaccajService } from './../../../services/arcaaccaj.service';
+import { DatosCajaDTO } from '../../../DTO/DatosCajaDTO';
+import { ArcaaccajService } from '../../../services/arcaaccaj.service';
 import { Router } from '@angular/router';
-import { TapusupvenService } from './../../../services/tapusupven.service';
-import { TapUsuPven } from './../../../models/TapUsuPven';
+import { TapusupvenService } from '../../../services/tapusupven.service';
+import { TapUsuPven } from '../../../models/TapUsuPven';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Arcaaccaj } from 'src/app/models/Arcaaccaj';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-usuarios-caja',
   templateUrl: './usuarios-caja.component.html',
@@ -15,7 +15,7 @@ import { Arcaaccaj } from 'src/app/models/Arcaaccaj';
 })
 export class UsuariosCajaComponent implements OnInit {
 
-
+  maxFecha:Date = new Date();
   empleados: TapUsuPven[] = [];
   empleadoSeleccionado: TapUsuPven;
   cajas: Arcaaccaj[] = [];
@@ -33,6 +33,10 @@ export class UsuariosCajaComponent implements OnInit {
   ngOnInit(): void {
     this.cia = sessionStorage.getItem('cia');
     this.codEmp = sessionStorage.getItem('codEmp');
+    this.maxFecha.setHours(0);
+    this.maxFecha.setMinutes(0);
+    this.maxFecha.setSeconds(0);
+    this.maxFecha.setMilliseconds(0);
     this.listaUsuarios();
   }
   listaUsuarios() {
@@ -56,17 +60,18 @@ export class UsuariosCajaComponent implements OnInit {
     }
   }
   aceptar() {
-    if (this.cajas.length === 1) {
-      if (this.codCaja != null) {
-        let datos = new DatosCajaDTO(this.cia, this.empleadoSeleccionado.centro,
-          this.codCaja, this.codEmp);
-        this.cajaService.validaCaja(datos).subscribe(x => {
-          this.cajaService.caja(datos).subscribe(data => {
+    let datos = new DatosCajaDTO(this.cia, this.empleadoSeleccionado.centro,
+      this.codCaja, this.codEmp);
+      datos.fecha = moment(this.maxFecha).format('YYYY-MM-DDTHH:mm:ss');
+
+    if (this.cajas.length >= 1) {
+      if (this.empleadoSeleccionado.centro != null) {
+          this.cajaService.totalCajas(datos).subscribe(data => {
             this.cajaService.cajasCreadas.next(data);
           })
           this.cancelar();
           this.router.navigateByUrl('/dashboard/caja');
-        }, err => {
+        /*, err => {
           if (err.status == 404) {
             Swal.close();
             Swal.fire({
@@ -75,28 +80,18 @@ export class UsuariosCajaComponent implements OnInit {
               title: 'Debe aperturar caja'
             });
             this.cancelar();
-            this.router.navigateByUrl('/dashboard/caja/nuevo');
+            this.router.navigateByUrl('/dashboard/caja');
           }
-        })
+        }*/
       } else {
         Swal.close();
         Swal.fire({
           allowOutsideClick: false,
           icon: 'info',
-          title: 'Seleccione caja'
+          title: 'Seleccione Usuario'
         });
       }
     } else {
-      let datos = new DatosCajaDTO(this.cia, this.empleadoSeleccionado.centro,
-        this.codCaja, this.codEmp);
-      if (this.cajas.length > 1) {
-        this.cancelar();
-        this.router.navigateByUrl('/dashboard/caja');
-        this.cajaService.caja(datos).subscribe(data => {
-          this.cajaService.cajasCreadas.next(data);
-        });
-      }
-      if (this.cajas.length === 0) {
         Swal.close();
         Swal.fire({
           allowOutsideClick: false,
@@ -104,8 +99,7 @@ export class UsuariosCajaComponent implements OnInit {
           title: 'No hay cajas abiertas'
         });
         this.cancelar();
-        this.router.navigateByUrl('/dashboard/caja/nuevo');
-      }
+        this.router.navigateByUrl('/dashboard/caja');
     }
   }
 }

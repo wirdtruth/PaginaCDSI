@@ -23,12 +23,11 @@ export class ArcaaccajService {
   actualizaCaja(caja: Arcaaccaj) {
     return this.http.put<Arcaaccaj>(this.url.getUrl() + `/cajas`, caja);
   }
+
   validaCaja(datos: DatosCajaDTO) {
     return this.http.post<Arcaaccaj>(this.url.getUrl() + `/cajas/valida/caja`, datos);
   }
-  traerCaja(id: IdArcaaccaj) {
-    return this.http.post<Arcaaccaj>(this.url.getUrl() + `/cajas/traerCaja`, id);
-  }
+  //=====================================
   caja(datos: DatosCajaDTO) {
     return this.http.post<Arcaaccaj[]>(this.url.getUrl() + `/cajas/caja`, datos);
   }
@@ -38,7 +37,7 @@ export class ArcaaccajService {
   eliminar(id: IdArcaaccaj){
     return this.http.post(this.url.getUrl() + `/cajas/eliminar`,id);
   }
-  cajaSeleccioanda(cia:string,centro:string){
+  cajaSeleccianda(cia:string,centro:string){
     return this.http.get<CajaDTO[]>(this.url.getUrl()+`/cajas/seleccionada/${cia}/${centro}`);
   }
   cajaRegistro(cia:string,centro:string){

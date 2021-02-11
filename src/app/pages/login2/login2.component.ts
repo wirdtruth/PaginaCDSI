@@ -1,3 +1,5 @@
+import { MenuPventaComponent } from './menu-pventa/menu-pventa.component';
+import { MatDialog } from '@angular/material/dialog';
 import { TapUsuPven } from './../../models/TapUsuPven';
 import { TapusupvenService } from './../../services/tapusupven.service';
 import { VendedorDTO } from './../../DTO/VendedorDTO';
@@ -21,12 +23,11 @@ import { switchMap } from 'rxjs/operators';
 export class Login2Component implements OnInit {
 
   id: number;
-  titulo:string;
   companys: Company[] = [];
   companySeleccionada: Company;
   vendedor: Arccvc;
   idVende: IdArccvc;
-  usuario: TapUsuPven[]=[];
+  usuario: TapUsuPven[] = [];
   form: FormGroup;
   codEmpleado: string;
 
@@ -34,7 +35,8 @@ export class Login2Component implements OnInit {
     private route: ActivatedRoute,
     private ciaServ: CompanyService,
     private venServ: ArccvcService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.listarCias();
@@ -45,15 +47,6 @@ export class Login2Component implements OnInit {
       'codigo': new FormControl(''),
       'pass': new FormControl('')
     });
-
-    this.route.params.subscribe((data:Params) =>{
-      this.id=data['id'];
-      if(this.id==1){
-        this.titulo="ARTICULOS";
-      }else{
-        this.titulo="VENTAS";
-      }
-    })
 
   }
   listarCias() {
@@ -74,20 +67,17 @@ export class Login2Component implements OnInit {
         this.codEmpleado = x.codEmp;
         Swal.close();
         this.guardarCampos();
-        if(this.id==1){
-          this.router.navigateByUrl('/dashboard/articulo');
-        }else{
-          this.router.navigateByUrl('/dashboard/caja');
-        }
-
+        this.abrirDialogo();
       }, err => {
         if (err.status == 404) {
           Swal.close();
           Swal.fire({
             allowOutsideClick: false,
             icon: 'info',
-            title: 'Vendedor no registrado'
+            title: 'Vendedor Sin usuario'
           });
+        this.guardarCampos();
+        this.abrirDialogo();
         }
       })
     }, err => {
@@ -108,7 +98,11 @@ export class Login2Component implements OnInit {
       sessionStorage.setItem('cod', this.idVende.codigo);
       sessionStorage.setItem('nombre', this.vendedor.descripcion);
       sessionStorage.setItem('codEmp', this.codEmpleado);
-      //console.log(sessionStorage.getItem('codEmp'));
     }
+  }
+  abrirDialogo() {
+    this.dialog.open(MenuPventaComponent, {
+      width: '250px'
+    });
   }
 }

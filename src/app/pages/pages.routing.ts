@@ -1,5 +1,6 @@
-import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component';
-import { CajaComponent } from './caja/caja.component';
+import { PedidoEdicionComponent } from './pedido/pedido-edicion/pedido-edicion.component';
+import { PedidoComponent } from './pedido/pedido.component';
+import { CajaComponent } from './pedido/caja/caja.component';
 import { Login2Component } from './login2/login2.component';
 import { LartiComponent } from './larti/larti.component';
 import { HomeComponent } from './home/home.component';
@@ -60,15 +61,22 @@ const routes: Routes = [
       { path: 'alianzas', component: AlianzasComponent },
       { path: 'tra_rea', component: TrabajosRealizadosComponent },
       { path: 'reg_asis', component: LoginComponent },
-      { path: 'log_arti/:id', component: Login2Component },
-      { path: 'articulo', component: LartiComponent },
-      {
-        path: 'caja', component: CajaComponent},
+
       //{ path: 'articulo/page/:page',  component: LartiComponent },
       { path: 'home', component: HomeComponent } // REGISTRO DE ASISTENCIA
 
     ]
+  },
+  { path: 'log_arti', component: Login2Component },
+  { path: 'articulo', component: LartiComponent },
+  {
+    path: 'pedido', component: PedidoComponent, children: [
+      { path: 'nuevo', component: PedidoEdicionComponent },
+      { path: 'edicion/:orden', component: PedidoEdicionComponent },
+      { path: 'caja', component: CajaComponent }
+    ]
   }
+
 
 ];
 

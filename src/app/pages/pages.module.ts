@@ -39,9 +39,11 @@ import { RegistroComponent } from './registro/registro.component';
 import { RgtacdeComponent } from './rgtacde/rgtacde.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { Login2Component } from './login2/login2.component';
-import { CajaComponent } from './caja/caja.component';
-import { UsuariosCajaComponent } from './caja/usuarios-caja/usuarios-caja.component';
-import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component';
+import { PedidoComponent } from './pedido/pedido.component';
+import { PedidoEdicionComponent } from './pedido/pedido-edicion/pedido-edicion.component';
+import { MenuPventaComponent } from './login2/menu-pventa/menu-pventa.component';
+import { CajaComponent } from './pedido/caja/caja.component';
+import { CajaEdicionComponent } from './pedido/caja/caja-edicion/caja-edicion.component';
 
 @NgModule({
   declarations: [
@@ -78,8 +80,10 @@ import { CajaEdicionComponent } from './caja/caja-edicion/caja-edicion.component
     UsuarioComponent,
     Login2Component,
     CajaComponent,
-    UsuariosCajaComponent,
-    CajaEdicionComponent
+    CajaEdicionComponent,
+    PedidoComponent,
+    PedidoEdicionComponent,
+    MenuPventaComponent
   ],exports: [
     ProgressComponent,
     Grafica1Component,

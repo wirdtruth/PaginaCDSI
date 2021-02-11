@@ -1,3 +1,5 @@
+import { DatosArticulo } from './../DTO/DatosArticulo';
+import { Arinda } from './../models/Arinda';
 import { Usuario } from './../models/usuario';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -36,13 +38,16 @@ export class ArticuloService {
   }
   // METODO QUE NOS PERMITE TRAER TODOS LOS ARTICULOS CON SUS PRECIOS
   public getShowArti(cia: string, cod: string){
-    return this.http.get<Articulo[]>(this.other.getUrl() + `/arti/show/${cia}/${cod}`).pipe(
-      map(rest => {
-         return rest;
-      })
-    );
+    return this.http.get<Arinda>(this.other.getUrl() + `/arti/show/${cia}/${cod}`);
+  }
+   // LISTA DE ARTICULOS POR DESCRIPCION LIKE
+   public listaArtiDesc( cia: string, desc: string){
+    return this.http.get<Arinda[]>(this.other.getUrl() + `/arti/list/desc/${cia}/${desc}`)
   }
 
+  public precStock(cia: string, alm: string,pre:string,arti:string){
+    return this.http.get<DatosArticulo>(this.other.getUrl() + `/arti/precioStk/${cia}/${alm}/${pre}/${arti}`);
+  }
   // METODO QUE NOS PERMITE TRAER TODOS LOS ARTICULOS CON SUS PRECIOS
   public getPageAll(usuario: Usuario, catalogo:string, linea:string,subLinea:string,
     familia:string,almacen:string,tipo:string/*,page: number*/) {
@@ -99,13 +104,5 @@ export class ArticuloService {
     );
   }
 
-  // LISTA DE ARTICULOS POR DESCRIPCION LIKE
-  public listaArtiDesc( cia: string, desc: string){
-    return this.http.get<any>(this.other.getUrl() + `/arti/list/desc/${cia}/${desc}`).pipe(
-      map(rest => {
-         // console.log(rest);
-         return rest;
-      })
-    );
-  }
+
 }

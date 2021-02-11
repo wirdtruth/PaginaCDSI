@@ -104,7 +104,7 @@ export class LartiComponent implements OnInit {
 
   }
   regresarLogin(){
-    this.router.navigateByUrl('/dashboard/log_arti');
+    this.router.navigateByUrl('/log_arti');
   }
   listarAlmacenes() {
     this.almacenes$ = this.serviAlma.getAlmacenes(this.usu);

@@ -1,3 +1,6 @@
+.examenple-articulos-container{
+  padding: 2em;
+}
 .cabecera-content{
   width: 100%;
   display: inline-block;
@@ -62,7 +65,7 @@ table {
 }
 .mat-form-field{
   font-size: 15px;
-  width: 100%; 
+  width: 100%;
 }
 .mat-column-idArti{
   max-width: 90px;
@@ -86,7 +89,7 @@ table {
   box-sizing: border-box;
 }
 
-.mat-column-medida, 
+.mat-column-medida,
 .mat-column-marca,
 .mat-column-precio{
   max-width: 65px;
@@ -104,7 +107,7 @@ table {
   align-items: center;
   justify-content: center;
 }*/
-.mat-column-categoria, 
+.mat-column-categoria,
 .mat-column-familia,
 .mat-column-clase,
 .mat-column-catalogo{

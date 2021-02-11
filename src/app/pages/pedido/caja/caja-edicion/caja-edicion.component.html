@@ -11,24 +11,24 @@
       <input matInput placeholder="codigo" formControlName="codAper">
     </mat-form-field>
   </div>
-  <mat-form-field>
+  <mat-form-field class="input-izquierda">
     <input matInput [matDatepicker]="picker" placeholder="Fecha inicio" [max]="maxFecha" formControlName="fecha">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="input-derecha">
     <input matInput placeholder="Hora"  formControlName="hora">
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field class="input-izquierda">
     <mat-select placeholder="Selecciona Caja" [disabled]="validaCaja()" [(value)]="cajaSeleccionada" formControlName="caja">
       <mat-option *ngFor="let c of (cajas$ | async)" [value]="c.codigo">
         {{c.codigo}} {{c.moneda}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <br>
-  <mat-form-field>
+
+  <mat-form-field class="input-derecha">
     <mat-select placeholder="Selecciona Cajero" [(value)]="cajeroSeleccionado" formControlName="cajera">
       <mat-option *ngFor="let c of (cajeros$ | async)" [value]="c.emp">
         {{c.nombre}}
@@ -36,34 +36,33 @@
     </mat-select>
   </mat-form-field>
   <br>
-  <mat-form-field>
-    <input matInput required placeholder="Saldo Inicial" formControlName="saldoInicial">
-  </mat-form-field>
-  <br>
-  <mat-form-field>
+  <mat-form-field class="input-izquierda">
     <mat-select placeholder="Selecciona Estado" disabled [(value)]="estadoSeleccionado" formControlName="estado">
       <mat-option *ngFor="let e of estados" [value]="e.codigo">
         {{e.nombre}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field class="input-derecha">
+    <input matInput required placeholder="Saldo Inicial" formControlName="saldoInicial">
+  </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field class="input-izquierda">
     <input matInput [matDatepicker]="picker1" placeholder="Fecha cierre" [max]="maxFecha1"
       formControlName="fechaCierre">
     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
     <mat-datepicker #picker1></mat-datepicker>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="input-derecha">
     <input matInput placeholder="Hora cierre" formControlName="horaCierre">
   </mat-form-field>
   <br>
-  <button mat-raised-button color="primary" type="submit" [disabled]="espForm.invalid">
+  <button mat-raised-button color="primary" type="submit" [disabled]="validaBoton()">
     <!--<mat-icon>done</mat-icon>-->
 
     <span>Aceptar</span>
   </button>
-  <button mat-raised-button color="accent" (click)="cancelar()" type="button">
+  <button class="input-derecha" mat-raised-button color="accent" (click)="cancelar()" type="button">
     <!--<mat-icon>close</mat-icon>-->
     <span>Cancelar</span>
   </button>

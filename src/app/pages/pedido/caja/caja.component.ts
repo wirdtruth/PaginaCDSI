@@ -1,10 +1,9 @@
+import { DatosCajaDTO } from './../../../DTO/DatosCajaDTO';
+import { ArcaaccajService } from './../../../services/arcaaccaj.service';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { CajaEdicionComponent } from './caja-edicion/caja-edicion.component';
-import { DatosCajaDTO } from './../../DTO/DatosCajaDTO';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ArcaaccajService } from './../../services/arcaaccaj.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,7 +11,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Arcaaccaj } from 'src/app/models/Arcaaccaj';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
-import { UsuariosCajaComponent } from './usuarios-caja/usuarios-caja.component';
+import { CajaEdicionComponent } from './caja-edicion/caja-edicion.component';
 @Component({
   selector: 'app-caja',
   templateUrl: './caja.component.html',
@@ -27,40 +26,43 @@ export class CajaComponent implements OnInit {
   dataSource: MatTableDataSource<Arcaaccaj>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
   caja: string;
   cajera: string;
   centro: string;
+
   constructor(
     public cajaService: ArcaaccajService,
     public snackBar: MatSnackBar,
     public route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
-    this.verUsuarios();
-    this.centro = sessionStorage.getItem('centro');
 
-    if (this.centro != null) {
-      this.form = new FormGroup({
-        centro: new FormControl(sessionStorage.getItem('centro')),
-        fecha: new FormControl(this.maxFecha)
-      });
-      this.cajaService.cajasCreadas.subscribe(data => {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      });
-      this.cajaService.mensajeCambio.subscribe(data => {
-        this.snackBar.open(data, 'AVISO', {
-          duration: 2000,
+    //this.verUsuarios();
+    this.centro=sessionStorage.getItem('centro');
+    this.maxFecha.setHours(0);
+    this.maxFecha.setMinutes(0);
+    this.maxFecha.setSeconds(0);
+    this.maxFecha.setMilliseconds(0);
+    this.form = new FormGroup({
+          centro: new FormControl(this.centro),
+          fecha: new FormControl(this.maxFecha)
         });
+    this.cajaService.cajasCreadas.subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+    this.cajaService.mensajeCambio.subscribe(data => {
+      this.snackBar.open(data, 'AVISO', {
+        duration: 2000,
       });
-    }
+    });
   }
-  verUsuarios() {
-    this.dialog.open(UsuariosCajaComponent)
+  regresar() {
+    this.router.navigateByUrl('/pedido');
   }
   buscar() {
     this.datosCaja();
@@ -70,7 +72,7 @@ export class CajaComponent implements OnInit {
     this.fechaSeleccionada.setMinutes(0);
     this.fechaSeleccionada.setSeconds(0);
     this.fechaSeleccionada.setMilliseconds(0);
-    let datos = new DatosCajaDTO(sessionStorage.getItem('cia'), this.form.value['centro'], this.caja, this.cajera);
+    let datos = new DatosCajaDTO(sessionStorage.getItem('cia'), this.centro, this.caja, this.cajera);
     datos.fecha = moment(this.fechaSeleccionada).format('YYYY-MM-DDTHH:mm:ss');
     if (datos.centro) {
       delete datos.caja;
@@ -100,7 +102,7 @@ export class CajaComponent implements OnInit {
   abrirDialogo(caja?: Arcaaccaj) {
     let caj = caja != null ? caja : new Arcaaccaj();
     this.dialog.open(CajaEdicionComponent, {
-      width: '50%',
+      maxWidth: '35%',
       data: caj
     });
   }

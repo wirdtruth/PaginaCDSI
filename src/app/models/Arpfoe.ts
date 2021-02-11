@@ -15,7 +15,7 @@ export class Arpfoe {
   fechaEntrega: string;
   fechaEntregaReal: string;
   fechaVence: string;
-  tipoPrecio: number;
+  tipoPrecio: string;
   moneda: string;
   tipoCambio: string;
   subTotal: number;
@@ -24,6 +24,7 @@ export class Arpfoe {
   impuesto: number;
   estado: string;
   bodega: string;
+  cuser:string;
   igv: number;
   indGuiado: string;
   perDeGracia: number;

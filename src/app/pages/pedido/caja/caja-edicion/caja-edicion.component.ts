@@ -1,14 +1,14 @@
-import { DatosCajaDTO } from './../../../DTO/DatosCajaDTO';
+import { TapusupvenService } from './../../../../services/tapusupven.service';
+import { DatosCajaDTO } from '../../../../DTO/DatosCajaDTO';
 import { switchMap } from 'rxjs/operators';
-import { EstadosDTO } from './../../../DTO/EstadosDTO';
-import { CajaDTO } from './../../../DTO/CajaDTO';
-import { TapusupvenService } from './../../../services/tapusupven.service';
+import { EstadosDTO } from '../../../../DTO/EstadosDTO';
+import { CajaDTO } from '../../../../DTO/CajaDTO';
 import { Observable } from 'rxjs';
-import { ArcaaccajService } from './../../../services/arcaaccaj.service';
+import { ArcaaccajService } from '../../../../services/arcaaccaj.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { IdArcaaccaj } from './../../../models/IdArcaaccaj';
-import { TapUsuPven } from './../../../models/TapUsuPven';
-import { Arcaaccaj } from './../../../models/Arcaaccaj';
+import { IdArcaaccaj } from '../../../../models/IdArcaaccaj';
+import { TapUsuPven } from '../../../../models/TapUsuPven';
+import { Arcaaccaj } from '../../../../models/Arcaaccaj';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -30,7 +30,7 @@ export class CajaEdicionComponent implements OnInit {
   cajaSeleccionada: string;
   estados: EstadosDTO[] = [
     { codigo: 'A', nombre: 'Abierto' },
-    { codigo: 'C', nombre: 'Cerrado' }]
+    { codigo: 'C', nombre: 'Cerrado' }];
   estadoSeleccionado: string;
   maxFecha: Date = new Date();
   maxFecha1: Date = new Date();
@@ -40,7 +40,7 @@ export class CajaEdicionComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public dialogRef: MatDialogRef<CajaEdicionComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: Arcaaccaj
+    @Inject(MAT_DIALOG_DATA) public data: Arcaaccaj
   ) { }
 
   ngOnInit(): void {
@@ -80,20 +80,22 @@ export class CajaEdicionComponent implements OnInit {
       fechaCierre: new FormControl(this.data.fechaCierre),
       horaCierre: new FormControl(this.data.horaCierre)
     })
+    this.cajaSeleccionada = this.form.value['caja'];
+    this.cajeroSeleccionado = this.form.value['cajera'];
   }
   listaCajeros() {
     this.cajeros$ = this.usuService.cajeros(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
   }
   listaCajas() {
-    if (this.edicion){
-      this.cajas$ = this.cajaService.cajaSeleccioanda(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
-    }else{
+    if (this.edicion) {
+      this.cajas$ = this.cajaService.cajaSeleccianda(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
+    } else {
       this.cajas$ = this.cajaService.cajaRegistro(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
     }
     //this.cajas$ = this.cajaService.cajas(sessionStorage.getItem('cia'), sessionStorage.getItem('centro'));
   }
-  validaCaja(){
-    return(this.edicion);
+  validaCaja() {
+    return (this.edicion);
   }
   operar() {
     let idCaja = new IdArcaaccaj();
@@ -117,25 +119,31 @@ export class CajaEdicionComponent implements OnInit {
     this.maxFecha.setMilliseconds(0);
     let datos = new DatosCajaDTO(idCaja.cia, idCaja.centro, idCaja.codCaja,
       caja.cajera)
-      datos.fecha =moment(this.maxFecha).format('YYYY-MM-DDTHH:mm:ss');
-    if (this.edicion) {
-      this.cajaService.actualizaCaja(caja).pipe(switchMap(() => {
-        return this.cajaService.totalCajas(datos);
-      })).subscribe(data => {
-        this.cajaService.cajasCreadas.next(data);
-        this.cajaService.mensajeCambio.next('SE ACTUALIZÓ');
-      });
-    } else {
-      this.cajaService.aperturaCaja(caja).pipe(switchMap(() => {
-        return this.cajaService.totalCajas(datos);
-      })).subscribe(data => {
-        this.cajaService.cajasCreadas.next(data);
-        this.cajaService.mensajeCambio.next('SE REGISTRÓ');
-      });
+    datos.fecha = moment(this.maxFecha).format('YYYY-MM-DDTHH:mm:ss');
+    if (caja.estado == 'A') {
+
+      if (this.edicion) {
+        this.cajaService.actualizaCaja(caja).pipe(switchMap(() => {
+          return this.cajaService.totalCajas(datos);
+        })).subscribe(data => {
+          this.cajaService.cajasCreadas.next(data);
+          this.cajaService.mensajeCambio.next('SE ACTUALIZÓ');
+        });
+      } else {
+        this.cajaService.aperturaCaja(caja).pipe(switchMap(() => {
+          return this.cajaService.totalCajas(datos);
+        })).subscribe(data => {
+          this.cajaService.cajasCreadas.next(data);
+          this.cajaService.mensajeCambio.next('SE REGISTRÓ');
+        });
+      }
+      this.cancelar();
     }
-    this.cancelar();
   }
   cancelar() {
     this.dialogRef.close();
+  }
+  validaBoton() {
+    return (this.form.value['estado'] == 'C' || this.form.value['fecha'] == null || this.form.value['hora'] == null || this.form.value['cajera'] == null || this.form.value['caja'] == null);
   }
 }

@@ -23,7 +23,7 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
   declarations: [
     AppComponent,
     NopagefoundComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

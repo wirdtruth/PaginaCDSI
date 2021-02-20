@@ -25,6 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NuestroProductosComponent } from './nuestro-productos/nuestro-productos.component';
+import { FactuacionComponent } from './factuacion/factuacion.component';
 
 const routes: Routes = [
 
@@ -75,7 +76,8 @@ const routes: Routes = [
       { path: 'edicion/:orden', component: PedidoEdicionComponent },
       { path: 'caja', component: CajaComponent }
     ]
-  }
+  },
+  { path: 'facturacion', component: FactuacionComponent}
 
 
 ];

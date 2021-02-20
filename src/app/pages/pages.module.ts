@@ -44,6 +44,7 @@ import { PedidoEdicionComponent } from './pedido/pedido-edicion/pedido-edicion.c
 import { MenuPventaComponent } from './login2/menu-pventa/menu-pventa.component';
 import { CajaComponent } from './pedido/caja/caja.component';
 import { CajaEdicionComponent } from './pedido/caja/caja-edicion/caja-edicion.component';
+import { FactuacionComponent } from './factuacion/factuacion.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { CajaEdicionComponent } from './pedido/caja/caja-edicion/caja-edicion.co
     CajaEdicionComponent,
     PedidoComponent,
     PedidoEdicionComponent,
-    MenuPventaComponent
+    MenuPventaComponent,
+    FactuacionComponent
   ],exports: [
     ProgressComponent,
     Grafica1Component,

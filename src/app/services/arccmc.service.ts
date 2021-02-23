@@ -20,4 +20,8 @@ export class ArccmcService {
   traeCliente(datos:DatosClienteDTO){
     return this.http.post<Arccmc>(this.url.getUrl() + `/cli/cliente`,datos);
   }
+  // LISTA DE CLIENTES POR RUC LIKE
+  public listaClientesRucLike( cia: string, id: string){
+    return this.http.get<Arccmc[]>(this.url.getUrl() + `/cli/list/${cia}/${id}`)
+  }
 }

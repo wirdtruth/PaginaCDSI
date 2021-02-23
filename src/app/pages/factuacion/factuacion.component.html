@@ -6,7 +6,7 @@
     <form class="w-100">
         <div class="row">
             <div class="col-sm p-3" style="border-right: 1px solid lightgray;">
-                <div class="row" [formGroup]="formFactu" matAutocompleteOrigin #origin="matAutocompleteOrigin">
+                <div class="row" [formGroup]="groupEmpresa" matAutocompleteOrigin #origin="matAutocompleteOrigin">
                     <mat-form-field appearance="outline" floatLabel="always" class="col-sm-4">
                         <mat-label>RUC</mat-label>
                         <input  matInput 
@@ -16,7 +16,7 @@
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setFormData($event)">
                             <mat-option *ngFor="let option of factuOptions | async" [value]="option">
                                 <div style="display:flex;flex-wrap: nowrap;align-items:center;justify-content:center;margin: auto;">
-                                    <span style="flex-grow: 1;flex: 1 1 33%;">{{option.ruc | titlecase}}    |   {{option.razon}}</span>
+                                    <span style="flex-grow: 1;flex: 1 1 33%;">{{option.ruc | titlecase}}  -  {{option.razon}}</span>
                                   </div>
                             </mat-option>
                         </mat-autocomplete>
@@ -63,23 +63,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" [formGroup]="groupArticulo">
                     <div class="col-sm-2">
                         <mat-form-field appearance="outline" floatLabel="always" class="w-100">
                             <mat-label>Codigo</mat-label>
-                            <input matInput placeholder="Placeholder" [(ngModel)]="CodigoProd" name="CodigoProd">
+                            <input matInput placeholder="Placeholder" formControlName="codProd" name="codProd">
                         </mat-form-field>
                     </div>
                     <div class="col-sm">
                         <mat-form-field appearance="outline" floatLabel="always" class="w-100">
                             <mat-label>Descripcion</mat-label>
-                            <input matInput placeholder="Placeholder" [(ngModel)]="DescProd" name="DescProd">
+                            <input matInput placeholder="Placeholder" formControlName="desProd" name="desProd">
                         </mat-form-field>
                     </div>
                     <div class="col-sm-2">
                         <mat-form-field appearance="outline" floatLabel="always" class="w-100">
                             <mat-label>Cant</mat-label>
-                            <input matInput placeholder="Placeholder" [(ngModel)]="CantProd" name="CantProd">
+                            <input matInput type="number" formControlName="cantProd" name="cantProd">
                         </mat-form-field>
                     </div>
                     <div class="col-sm-2 p-1">
@@ -136,6 +136,7 @@
                 </div>
             </div>
         </div>
+        <br>
         <div class="row">
             <table mat-table [dataSource]="dataSource" class="w-100">
                 <ng-container matColumnDef="item">
@@ -192,7 +193,14 @@
                     <th mat-header-cell *matHeaderCellDef> Total </th>
                     <td mat-cell *matCellDef="let element"> {{element.total}} </td>
                 </ng-container>
-            
+                <ng-container matColumnDef="eliminar" style="margin: 0;">
+                    <th mat-header-cell *matHeaderCellDef style="margin: 0;">Eliminar</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="warn" (click)="deleteDetail(element.item)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>

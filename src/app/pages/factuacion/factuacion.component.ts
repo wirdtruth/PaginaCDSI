@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { tick } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTableDataSource } from '@angular/material/table';
-import { merge, Observable } from 'rxjs';
-import { debounceTime, filter, map } from 'rxjs/operators';
-import { DatosClienteDTO } from 'src/app/DTO/DatosClienteDTO';
+import { merge, Observable, of } from 'rxjs';
 import { Arccmc } from 'src/app/models/Arccmc';
 import { ArccmcService } from 'src/app/services/arccmc.service';
 import { ArticuloService } from 'src/app/services/articulo.service';
 import { PedidoService } from 'src/app/services/pedido.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-factuacion',
@@ -20,16 +18,9 @@ import { PedidoService } from 'src/app/services/pedido.service';
 export class FactuacionComponent implements OnInit {
   groupEmpresa:FormGroup;
   groupArticulo:FormGroup;
-  //elemento: EmpresaElement;
+
   detalle: Arfafl[];
   options: Arccmc[] = [];
-  /*[{ruc: '99999999999', razon: 'Empresa 1'},
-  {ruc: '88888888888', razon: 'Empresa 2'},
-  {ruc: '77777777777', razon: 'Empresa 3'},
-  {ruc: '66666666666', razon: 'Empresa 4'},
-  {ruc: '88888777777', razon: 'Empresa 3'},
-  {ruc: '88888666666', razon: 'Empresa 4'},
-  ];*/
 
   factuOptions: Observable<Arccmc[]>;
   codProd = '';
@@ -56,40 +47,48 @@ export class FactuacionComponent implements OnInit {
       desProd: new FormControl(),
       cantProd: new FormControl()
     });
-    this.factuOptions = this.groupEmpresa.controls['ruc'].valueChanges
+
+    /*this.factuOptions = this.groupEmpresa.controls['ruc'].valueChanges
     .pipe(
       debounceTime(300),
       map(value => this._filter(value))
-    );
+    );*/
+
+    // this.groupEmpresa.get("ruc").valueChanges.subscribe( value => {
+
+    // });
+
+    // this.groupEmpresa.get("ruc").valueChanges.pipe(
+    //   debounceTime(300),
+    //   map(value => this._filter(value))
+    // );
+
+    this.groupEmpresa.get("ruc").valueChanges.subscribe(valueChange => {
+      if(valueChange.length > 3)
+      this.factuOptions = this.clienteServices.listaClientesRucLike('01',valueChange);
+      else
+      this.factuOptions = null;
+    })
+
   }
 
   private _filter(value: string){
-    if (value.length < 4) {
-      return [];
-    } else {
-      const filterValue = value;
-      this.clienteServices.listaClientesRucLike(sessionStorage.getItem('cia'),filterValue)
-      .subscribe( data => {
-        this.options = data;
-      })
-      return  this.options;
-      //this.clienteServices.listaClientesRucLike(sessionStorage.getItem('cia'))
-      //return this.options.filter(option => option.ruc.includes(filterValue));
 
+    if(value.length > 3) {
+      this.clienteServices.listaClientesRucLike('01',value).subscribe(
+        datos => {
+          this.options = datos;
+        }
+      );
+      return this.options;
+    } else {
+      return [];
     }
-    /*filtrarArticulos(val: any) {
-      if (val != null) {
-        let filtro:string = String(val);
-        this.arindaService.listaArtiDesc(sessionStorage.getItem('cia'), filtro.trim()).subscribe(data => {
-          this.articulos = data;
-        })
-        return this.articulos;
-      }
-    */
+
   }
-  
+
 addElement() {
-  ELEMENT_DATA.push({item: this.getItemNumber(), codigo: this.groupArticulo.controls['codProd'].value, medida:0, 
+  ELEMENT_DATA.push({item: this.getItemNumber(), codigo: this.groupArticulo.controls['codProd'].value, medida:0,
   descripcion: this.groupArticulo.controls['desProd'].value, tipoAfec: 0,cantidad: this.groupArticulo.controls['cantProd'].value, pu: 0, descu: 0, icbCop: 0, IGV: 0, total: 0})
    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
 }
@@ -101,17 +100,38 @@ getItemNumber():number {
   }
 }
 
+onKeypressRucEvent($event: any){
+  /*if ($event.target.value.length > 7) {
+    console.log($event.target.value);
+    const filterValue = $event.target.value;
+    this.factuOptions = this.clienteServices.listaClientesRucLike('01',filterValue);
+
+  } else if ($event.target.value.length > 3) {
+    this.factuOptions = this.groupEmpresa.get("ruc").valueChanges
+    .pipe(
+      debounceTime(300),
+      map(value => this._filter(value))
+    );
+  } else {
+    this.factuOptions = this.groupEmpresa.controls['ruc'].valueChanges
+    .pipe(
+      debounceTime(300),
+      map(value => this._filter(value))
+    );
+  }*/
+}
+
 setFormData($event: MatAutocompleteSelectedEvent) {
   let factuOptions = $event.option.value;
   if(factuOptions){
     this.groupEmpresa.controls['ruc'].setValue(factuOptions.ruc, {emitEvent: false});
-    this.groupEmpresa.controls['racSoc'].setValue(factuOptions.razon, {emitEvent: false});
+    this.groupEmpresa.controls['racSoc'].setValue(factuOptions.nombre, {emitEvent: false});
   }
 }
 
 deleteDetail(index: number) {
   ELEMENT_DATA.splice(index-1, 1);
-  // this.getTotal();
+
   this.reOrderItems();
   this.dataSource = new MatTableDataSource(ELEMENT_DATA);
 }
@@ -134,7 +154,7 @@ export interface EmpresaElement{
   ruc: string;
   razon: string;
 }
-  
+
 export interface FacturaElement {
   item: number;
   codigo: string;
